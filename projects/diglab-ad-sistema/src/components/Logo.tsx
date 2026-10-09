@@ -1,6 +1,6 @@
 import React from "react";
 import { getStaticFiles, Img, staticFile } from "remotion";
-import { COLORS } from "../config/brand";
+import { COLORS, LOGO_CORNER } from "../config/brand";
 import { FONT_STACK } from "./fonts";
 
 /**
@@ -27,7 +27,7 @@ export const Logo: React.FC<{
     return (
       <Img
         src={staticFile(file)}
-        style={{ height, width: "auto", display: "block", ...style }}
+        style={{ height, width: "auto", display: "block", borderRadius: height * LOGO_CORNER, ...style }}
       />
     );
   }

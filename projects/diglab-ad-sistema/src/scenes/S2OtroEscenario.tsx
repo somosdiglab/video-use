@@ -31,7 +31,7 @@ const Toggle: React.FC<{ on: number; scale?: number }> = ({ on, scale = 1 }) => 
         width: w,
         height: h,
         borderRadius: h / 2,
-        background: on > 0.5 ? COLORS.red : "#C9C8C2",
+        background: on > 0.5 ? COLORS.accent : COLORS.paperMuted,
         position: "relative",
         boxShadow: "inset 0 2px 6px rgba(0,0,0,0.12)",
       }}
@@ -179,7 +179,7 @@ export const S2OtroEscenario: React.FC = () => {
               width: 660,
               height: 50,
               borderRadius: 25,
-              background: "#E2E1DB",
+              background: COLORS.paperLine,
               overflow: "hidden",
               opacity: rise(f, layoutAt + 10, 10),
             }}
@@ -189,15 +189,15 @@ export const S2OtroEscenario: React.FC = () => {
                 width: `${fill * 100}%`,
                 height: "100%",
                 borderRadius: 25,
-                background: full > 0.5 ? COLORS.green : COLORS.red,
-                boxShadow: `0 0 24px ${full > 0.5 ? COLORS.green : COLORS.red}66`,
+                background: full > 0.5 ? COLORS.green : COLORS.accent,
+                boxShadow: `0 0 24px ${full > 0.5 ? COLORS.green : COLORS.accent}66`,
               }}
             />
           </div>
           <IconBadge
             Icon={ShieldCheck}
             size={84}
-            bg={full > 0.5 ? COLORS.green : "#C9C8C2"}
+            bg={full > 0.5 ? COLORS.green : COLORS.paperMuted}
             style={{
               position: "absolute",
               left: 854,
@@ -214,7 +214,7 @@ export const S2OtroEscenario: React.FC = () => {
               top: 236,
               width: 8,
               height: interpolate(rise(f, layoutAt + 10, 24), [0, 1], [0, 620], CLAMP),
-              backgroundImage: "radial-gradient(circle, #B9B8B1 3.5px, transparent 4px)",
+              backgroundImage: "radial-gradient(circle, #A9BED2 3.5px, transparent 4px)",
               backgroundSize: "8px 22px",
               backgroundPosition: `0px ${(f * 0.9) % 22}px`,
             }}
@@ -234,7 +234,7 @@ export const S2OtroEscenario: React.FC = () => {
                     width: 26,
                     height: 26,
                     borderRadius: "50%",
-                    background: shown ? COLORS.red : "#CFCEC7",
+                    background: shown ? COLORS.accent : COLORS.paperMuted,
                     opacity: rise(f, slotAt[k], 8),
                   }}
                 />
@@ -246,7 +246,7 @@ export const S2OtroEscenario: React.FC = () => {
                     width: 750,
                     height: CARD_H,
                     borderRadius: 28,
-                    border: "4px dashed #CFCEC7",
+                    border: `4px dashed ${COLORS.paperMuted}`,
                     opacity: rise(f, slotAt[k], 8) * (shown ? 0 : 1),
                   }}
                 />
@@ -298,7 +298,7 @@ export const S2OtroEscenario: React.FC = () => {
             }}
           >
             <div style={{ position: "relative" }}>
-              <PriceTag width={190} color="#BDBCB5" holeColor={COLORS.paper} />
+              <PriceTag width={190} color={COLORS.paperMuted} holeColor={COLORS.paper} />
               <PriceTag
                 width={190}
                 holeColor={COLORS.paper}
@@ -363,7 +363,7 @@ export const S2OtroEscenario: React.FC = () => {
               left: PATH_X - 36,
               top: tokenY - 36 + bob,
               scale: `${pop(f, walkFrom - 6)}`,
-              boxShadow: `0 0 0 ${6 + 10 * full}px ${full > 0.5 ? COLORS.green : COLORS.red}33`,
+              boxShadow: `0 0 0 ${6 + 10 * full}px ${full > 0.5 ? COLORS.green : COLORS.accent}33`,
             }}
           />
         </div>

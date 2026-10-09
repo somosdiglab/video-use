@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Sequence } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { z } from "zod";
 import { AudioLayer } from "./audio/AudioLayer";
 import { COLORS } from "./config/brand";
@@ -7,7 +7,8 @@ import { type SceneId } from "./config/timeline";
 import { SafeZoneOverlay } from "./components/Layout";
 import { sceneSequence } from "./components/SceneFrame";
 import { Subtitles } from "./components/Subtitles";
-import { TransitionLayer } from "./components/TransitionLayer";
+import { ARoll, CutawayLayer, WipeLayer } from "./edit/Layers";
+import { OverlayLayer } from "./edit/Overlays";
 import { S1Hook } from "./scenes/S1Hook";
 import { S2OtroEscenario } from "./scenes/S2OtroEscenario";
 import { S3NoComparaIgual } from "./scenes/S3NoComparaIgual";
@@ -21,6 +22,7 @@ export const adSchema = z.object({
 });
 export type AdProps = z.infer<typeof adSchema>;
 
+/** Full-screen graphic components (used as cutaways; also previewable on their own). */
 export const SCENE_COMPONENTS: Record<SceneId, React.FC> = {
   s1: S1Hook,
   s2: S2OtroEscenario,
@@ -31,32 +33,19 @@ export const SCENE_COMPONENTS: Record<SceneId, React.FC> = {
 };
 
 /**
- * Main ad. Layers, bottom to top:
- *   scenes (motion graphics) -> red-bar wipes -> subtitles -> debug overlay.
- * Audio: VO (if public/audio/vo.mp3 exists), music (optional), SFX.
+ * VOX-style talking-head ad. Visual layers, bottom to top:
+ *   narrator a-roll (muted) -> overlays on the face -> full-screen cutaways
+ *   -> brand-bar wipes -> subtitles.
+ * Audio is a separate layer: the VO is mounted ONCE at the root for the whole
+ * duration, so cutaways never interrupt the voice; music + SFX sit under it.
  */
 export const DigLabAd: React.FC<AdProps> = ({ withMusic, showSafeZones }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bg }}>
-      <Sequence name="Escena 1 · Hook" {...sceneSequence("s1")} premountFor={15}>
-        <S1Hook />
-      </Sequence>
-      <Sequence name="Escena 2 · Otro escenario" {...sceneSequence("s2")} premountFor={15}>
-        <S2OtroEscenario />
-      </Sequence>
-      <Sequence name="Escena 3 · No compara igual" {...sceneSequence("s3")} premountFor={15}>
-        <S3NoComparaIgual />
-      </Sequence>
-      <Sequence name="Escena 4 · Sistema" {...sceneSequence("s4")} premountFor={15}>
-        <S4Sistema />
-      </Sequence>
-      <Sequence name="Escena 5 · Dejar de competir" {...sceneSequence("s5")} premountFor={15}>
-        <S5DejarDeCompetir />
-      </Sequence>
-      <Sequence name="Escena 6 · Cierre / CTA" {...sceneSequence("s6")} premountFor={15}>
-        <S6Cierre />
-      </Sequence>
-      <TransitionLayer />
+      <ARoll />
+      <OverlayLayer />
+      <CutawayLayer />
+      <WipeLayer />
       <Subtitles />
       <AudioLayer withMusic={withMusic} />
       {showSafeZones ? <SafeZoneOverlay /> : null}

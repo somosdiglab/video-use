@@ -7,12 +7,13 @@ import { SFX_HITS } from "./cues";
 
 /**
  * Audio, bottom to top:
- *   VO       public/audio/vo.mp3 (the immovable timing track; absent = silent preview)
+ *   VO       public/media/vo.wav (edited by scripts/build_edit.py) — mounted once, full length
  *   Music    public/audio/music.mp3, ducked ~-20 dB under the VO, rising at the close
  *   SFX      synthesized hits from cues.ts
  */
 const files = getStaticFiles().map((f) => f.name);
-export const HAS_VO = files.includes("audio/vo.mp3");
+export const VO_FILE = ["media/vo.wav", "media/vo.mp3", "audio/vo.mp3"].find((f) => files.includes(f)) ?? null;
+export const HAS_VO = VO_FILE !== null;
 const HAS_MUSIC = files.includes("audio/music.mp3");
 
 const DUCK = 0.1; // -20 dB under speech
@@ -53,7 +54,7 @@ const MUSIC_GAIN: Float32Array = (() => {
 export const AudioLayer: React.FC<{ withMusic: boolean }> = ({ withMusic }) => {
   return (
     <>
-      {HAS_VO ? <Audio src={staticFile("audio/vo.mp3")} volume={1} /> : null}
+      {VO_FILE ? <Audio src={staticFile(VO_FILE)} volume={1} /> : null}
       {withMusic && HAS_MUSIC ? (
         <Audio
           src={staticFile("audio/music.mp3")}

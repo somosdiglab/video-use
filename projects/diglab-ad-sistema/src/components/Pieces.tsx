@@ -13,7 +13,7 @@ export const IconBadge: React.FC<{
   ringWidth?: number;
   iconScale?: number;
   style?: React.CSSProperties;
-}> = ({ Icon, size, bg = COLORS.red, fg = COLORS.white, ring, ringWidth = 6, iconScale = 0.5, style }) => (
+}> = ({ Icon, size, bg = COLORS.brand, fg = COLORS.white, ring, ringWidth = 6, iconScale = 0.5, style }) => (
   <div
     style={{
       width: size,
@@ -136,7 +136,7 @@ export const PriceTag: React.FC<{
   locked?: boolean;
   holeColor?: string;
   style?: React.CSSProperties;
-}> = ({ width, color = COLORS.red, holeColor = COLORS.bg, style }) => {
+}> = ({ width, color = COLORS.alert, holeColor = COLORS.bg, style }) => {
   const h = width * (130 / 240);
   return (
     <svg width={width} height={h} viewBox="0 0 240 130" style={{ overflow: "visible", ...style }}>

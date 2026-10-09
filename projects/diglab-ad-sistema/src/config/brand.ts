@@ -1,10 +1,9 @@
 /**
  * DigLab design tokens — the ONLY place brand values live.
  *
- * STATUS: PROVISIONAL. The Identidad folder (Manual de Identidad, Colores,
- * Tipografia, Banner, Tarjetas) was not reachable when this was built, so the
- * colors below are the fallback palette from the brief, NOT values read from
- * the brand manual. Replace the hex codes with the manual's values.
+ * Colors: DigLab palette tokens (provided by DigLab). Logo: public/brand/logo.png
+ * (provided). Brand font: still pending — Montserrat is used until the files
+ * from the Tipografia folder are dropped into public/fonts/brand/.
  *
  * Logo and brand font are picked up automatically from public/:
  *   public/brand/logo.svg | logo.png          -> logo for dark backgrounds
@@ -12,31 +11,42 @@
  *   public/fonts/brand/*.ttf|otf|woff|woff2     -> brand font (weight read from file name)
  * Until they exist, a clearly marked logo placeholder and Montserrat are used.
  */
-export const BRAND_STATUS = "PROVISIONAL" as const;
+export const BRAND_STATUS = "PALETTE+LOGO" as const; // brand font still pending
 
+/** DigLab palette (tokens provided by DigLab). Derived values are marked. */
 export const COLORS = {
-  // Dark premium base
-  bg: "#0E0E10",
-  bgRaised: "#18181C",
-  bgCard: "#1F1F24",
-  line: "#2C2C33",
-  // Bright "otro escenario" frame
-  paper: "#F3F2EF",
+  // Dark navy base
+  bg: "#071A2F", // --diglab-navy
+  bgRaised: "#102237", // --diglab-navy-elevated
+  bgCard: "#0E2945", // --diglab-blue-dark
+  surface: "#102237", // --diglab-navy-elevated
+  stroke: "#24405C", // derived: between blue-dark and text-secondary (inactive strokes)
+  coldBg: "#06131F", // derived: colder navy for "scenario A"
+  // Bright frame
+  paper: "#F5F8FA", // --diglab-background-light
   paperCard: "#FFFFFF",
-  paperLine: "#DDDCD7",
+  paperLine: "#E3EAF0", // --diglab-border-light
+  paperMuted: "#C9D6E0", // derived: border-light / text-light-secondary
   // Brand
-  red: "#E11D2A",
-  redDeep: "#A8141E",
+  brand: "#1E7FA8", // --diglab-blue-deep: brand bar + fills behind white text
+  accent: "#29ABE2", // --diglab-cyan: energy, highlights, active states
+  accentLight: "#6FD0F5", // --diglab-cyan-light
+  accentPale: "#EAF4F8", // --diglab-cyan-pale
+  // Alert (not brand): price, losses, cuts
+  alert: "#E11D2A",
   // Text
   white: "#FFFFFF",
-  ink: "#0E0E10",
-  // Secondary / "dead" states
-  gray: "#8A8A8E",
-  grayDark: "#45454B",
-  grayLight: "#C8C8CC",
+  ink: "#1B2A38", // --diglab-text-primary
+  inkSecondary: "#4A6175", // --diglab-text-secondary
+  gray: "#A9BED2", // --diglab-text-light-secondary (secondary / "dead" on dark)
+  grayDark: "#4A6175",
+  grayLight: "#A9BED2",
   // Positive signal — use sparingly
   green: "#2E9E6B",
 } as const;
+
+/** The logo file is an opaque square tile: show it with rounded corners. */
+export const LOGO_CORNER = 0.22;
 
 export const FONT_WEIGHTS = {
   medium: 500,

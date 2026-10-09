@@ -85,7 +85,7 @@ const CaptionPage: React.FC<{ page: Page }> = ({ page }) => {
             rowGap: 4,
             padding: "14px 18px",
             borderRadius: 22,
-            background: "rgba(14,14,16,0.86)",
+            background: "rgba(7,26,47,0.88)",
             boxShadow: "0 8px 30px rgba(0,0,0,0.35)",
             fontFamily: FONT_STACK,
             fontWeight: 800,
@@ -104,7 +104,8 @@ const CaptionPage: React.FC<{ page: Page }> = ({ page }) => {
                 style={{
                   padding: "2px 9px 4px",
                   borderRadius: 10,
-                  background: active ? COLORS.red : "transparent",
+                  background: active ? COLORS.accent : "transparent",
+                  color: active ? COLORS.bg : COLORS.white,
                 }}
               >
                 {tok.text.trim()}

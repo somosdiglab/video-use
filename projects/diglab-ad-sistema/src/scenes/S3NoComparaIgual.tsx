@@ -121,7 +121,7 @@ export const S3NoComparaIgual: React.FC = () => {
 
       {/* Pan labels */}
       {[
-        { p: L, text: COPY.s3.price, bg: valueWins > 0.5 ? "#B9B8B1" : COLORS.red },
+        { p: L, text: COPY.s3.price, bg: valueWins > 0.5 ? COLORS.paperMuted : COLORS.alert },
         { p: R, text: COPY.s3.value, bg: valueWins > 0.5 ? COLORS.green : COLORS.ink },
       ].map(({ p, text, bg }) => (
         <div
@@ -162,7 +162,7 @@ export const S3NoComparaIgual: React.FC = () => {
           width: beamHalf * 2,
           height: MATCH_LINE.h,
           borderRadius: lerp(9, 0, exit),
-          background: exit > 0 ? COLORS.red : COLORS.ink,
+          background: exit > 0 ? COLORS.accent : COLORS.ink,
           rotate: `${angle}deg`,
         }}
       />
@@ -174,7 +174,7 @@ export const S3NoComparaIgual: React.FC = () => {
           width: 44,
           height: 44,
           borderRadius: "50%",
-          background: COLORS.red,
+          background: COLORS.accent,
           opacity: fade,
         }}
       />

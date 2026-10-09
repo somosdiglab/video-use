@@ -97,7 +97,7 @@ export const S5DejarDeCompetir: React.FC = () => {
                 top: "46%",
                 height: 16,
                 borderRadius: 8,
-                background: COLORS.red,
+                background: COLORS.alert,
                 transformOrigin: "0% 50%",
                 scale: `${strike} 1`,
                 rotate: "-4deg",
@@ -136,7 +136,7 @@ export const S5DejarDeCompetir: React.FC = () => {
         <path
           d="M 50 300 L 50 900 L 930 900"
           fill="none"
-          stroke="#34343B"
+          stroke={COLORS.stroke}
           strokeWidth={4}
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -178,7 +178,7 @@ export const S5DejarDeCompetir: React.FC = () => {
             <IconBadge
               Icon={Building2}
               size={66}
-              bg="#2A2A31"
+              bg={COLORS.surface}
               fg={COLORS.grayLight}
               style={{ position: "absolute", left: pt.x - 33, top: pt.y - 33 }}
             />
@@ -188,7 +188,7 @@ export const S5DejarDeCompetir: React.FC = () => {
                   position: "absolute",
                   left: bpt.x - 56 + (k % 2) * 30,
                   top: bpt.y - 84,
-                  background: COLORS.red,
+                  background: COLORS.alert,
                   color: COLORS.white,
                   fontFamily: FONT_STACK,
                   fontWeight: 900,
@@ -217,7 +217,7 @@ export const S5DejarDeCompetir: React.FC = () => {
               width: 260,
               height: 260,
               borderRadius: "50%",
-              background: `radial-gradient(circle, ${COLORS.red}88 0%, ${COLORS.red}22 45%, rgba(0,0,0,0) 70%)`,
+              background: `radial-gradient(circle, ${COLORS.accent}99 0%, ${COLORS.accent}22 45%, rgba(0,0,0,0) 70%)`,
               opacity: halo,
               scale: `${0.8 + 0.25 * halo + 0.05 * Math.sin(f / 5)}`,
             }}
@@ -239,8 +239,8 @@ export const S5DejarDeCompetir: React.FC = () => {
             Icon={Hospital}
             size={interpolate(oursP, [OURS_BREAK, 1], [64, 104], CLAMP)}
             bg={COLORS.white}
-            fg={COLORS.red}
-            ring={COLORS.red}
+            fg={COLORS.brand}
+            ring={COLORS.accent}
             ringWidth={5}
             style={{
               position: "absolute",

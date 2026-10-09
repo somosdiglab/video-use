@@ -9,14 +9,14 @@ const BASES: Record<BgKind, { base: string; glow: string; vignette: string; grai
   // Dark premium
   dark: {
     base: COLORS.bg,
-    glow: "rgba(255,255,255,0.055)",
-    vignette: "rgba(0,0,0,0.55)",
+    glow: "rgba(41,171,226,0.08)",
+    vignette: "rgba(2,8,16,0.55)",
     grain: 0.07,
   },
   // Scenario A: same dark, colder and flatter
   cold: {
-    base: "#0D0F13",
-    glow: "rgba(150,170,200,0.06)",
+    base: COLORS.coldBg,
+    glow: "rgba(169,190,210,0.05)",
     vignette: "rgba(0,0,0,0.6)",
     grain: 0.07,
   },
@@ -24,7 +24,7 @@ const BASES: Record<BgKind, { base: string; glow: string; vignette: string; grai
   paper: {
     base: COLORS.paper,
     glow: "rgba(255,255,255,0.85)",
-    vignette: "rgba(60,50,40,0.12)",
+    vignette: "rgba(14,41,69,0.10)",
     grain: 0.09,
   },
 };

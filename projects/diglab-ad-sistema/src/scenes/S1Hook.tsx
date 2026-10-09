@@ -7,32 +7,37 @@ import { CLAMP, EASE_IN, EASE_OUT, fall, hash01, pop, rise, settle } from "../co
 import { FONT_STACK } from "../components/fonts";
 import { Avatar, ChatBubble, PriceTag, TypingDots } from "../components/Pieces";
 import { SceneFrame, useScene } from "../components/SceneFrame";
-import { cuesOf } from "../config/timeline";
+import { CUTAWAYS } from "../config/edit";
+import { cuesOf, SCENES } from "../config/timeline";
 import { breakWords, KineticWords, RedBarText } from "../components/Text";
 
 // Scenario A palette: cold grays, red only on the price tag.
-const COLD_BUBBLE = "#272B34";
-const COLD_TEXT = "#E4E7EC";
-const COLD_DIM = "#7C828E";
+const COLD_BUBBLE = "#14263A";
+const COLD_TEXT = COLORS.accentPale;
+const COLD_DIM = "#6F879E";
 
 /** Key beats (scene-local frames) — shared with the SFX cue sheet. */
 export const S1_BEATS = (() => {
   const { c, ce, dur } = cuesOf("s1");
-  // Hold the brand block ~2.4s so headline + question can actually be read.
-  const blockOut = Math.max(c("pregunta") + 2, 72);
-  const chatIn = blockOut + 4;
-  const typingFrames = 10;
+  // Talking-head edit: this scene is seen only as a ~2s cutaway, so the chat
+  // beat is packed into that window (bubble -> price -> gone).
+  const cut = CUTAWAYS.find((x) => x.id === "chat")!;
+  const chatIn = cut.from - SCENES.s1.from - 2;
+  const typingFrames = 3;
+  const charsPerFrame = 3;
   const typeStart = chatIn + 2 + typingFrames;
-  const typedDone = typeStart + Math.ceil(COPY.s1.leadMessage.length / 1.2);
+  const typedDone = typeStart + Math.ceil(COPY.s1.leadMessage.length / charsPerFrame);
+  const tagAt = Math.max(ce("pregunta"), typedDone + 2);
   return {
-    blockOut,
+    blockOut: chatIn - 6,
     chatIn,
-    askLabelAt: Math.max(c("pregunta"), chatIn + 2),
+    askLabelAt: chatIn,
     typingFrames,
+    charsPerFrame,
     typeStart,
     typedDone,
-    tagAt: Math.max(ce("pregunta"), typedDone + 3),
-    gone: c("desaparece"),
+    tagAt,
+    gone: Math.max(c("desaparece"), tagAt + 10),
     silentTypingAt: c("sinDecir") + 2,
     dissolveAt: dur - 22,
   };
@@ -40,7 +45,7 @@ export const S1_BEATS = (() => {
 
 export const S1Hook: React.FC = () => {
   const { f } = useScene("s1");
-  const { blockOut, chatIn, askLabelAt, typingFrames, tagAt, gone, silentTypingAt, dissolveAt } = S1_BEATS;
+  const { blockOut, chatIn, askLabelAt, typingFrames, charsPerFrame, tagAt, gone, silentTypingAt, dissolveAt } = S1_BEATS;
 
   // --- Beat A: brand block (topic clear from frame 0) -----------------------
   const blockExit = rise(f, blockOut, 10, EASE_IN);
@@ -212,6 +217,7 @@ export const S1Hook: React.FC = () => {
                 text={COPY.s1.leadMessage}
                 t={f - (chatIn + 2)}
                 typingFrames={typingFrames}
+                charsPerFrame={charsPerFrame}
                 bg={COLD_BUBBLE}
                 color={COLD_TEXT}
                 fontSize={58}
@@ -230,7 +236,7 @@ export const S1Hook: React.FC = () => {
               opacity: f >= tagAt ? 1 : 0,
             }}
           >
-            <PriceTag width={340} holeColor={"#0D0F13"} />
+            <PriceTag width={340} holeColor={COLORS.coldBg} />
           </div>
         </>
       ) : null}

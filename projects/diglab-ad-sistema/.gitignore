@@ -11,3 +11,10 @@ vo-work/
 
 # Keep this project's lockfile (the repo root ignores package-lock.json)
 !package-lock.json
+
+# Source footage / VO (large; originals live in Drive)
+media/
+public/media/
+
+# The repo root ignores any edit/ folder (video-use session outputs); this one is source code.
+!src/edit/

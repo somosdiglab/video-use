@@ -42,7 +42,7 @@ const BRIDGE_Y = 470;
 const DECK = { l: 210, r: 750 };
 const ARCH_RISE = 230;
 const NODE_ICONS: LucideIcon[] = [Magnet, Funnel, Columns3, Clock, UserCheck];
-const DARK_LINE = "#2C2C33";
+const DARK_LINE = COLORS.stroke;
 
 // ---------- Lead-bubble flow along the pipeline ------------------------------
 const SPAWN_EVERY = 5;
@@ -124,7 +124,7 @@ const LeadChip: React.FC<{ x: number; y: number; s?: number; color?: string; o?:
   x,
   y,
   s = 1,
-  color = "#E6E6EA",
+  color = COLORS.accentPale,
   o = 1,
   r = 0,
 }) => (
@@ -215,7 +215,7 @@ const Precalifica: React.FC<{ t: number }> = ({ t }) => {
               x={fx + (hash01(i) - 0.5) * 140 * (1 - inP)}
               y={lerp(185, 300, inP) + outP * 140}
               s={0.8 - 0.25 * inP}
-              color={inP >= 1 ? COLORS.green : "#E6E6EA"}
+              color={inP >= 1 ? COLORS.green : COLORS.accentPale}
               o={1 - outP}
             />
           );
@@ -258,7 +258,7 @@ const Ordena: React.FC<{ t: number }> = ({ t }) => {
             scale: `${0.85 + 0.15 * rise(t, j * 1.5, 6)}`,
           }}
         >
-          <div style={{ margin: "14px auto 0", width: 70, height: 10, borderRadius: 5, background: j === 2 ? COLORS.red : COLORS.grayDark }} />
+          <div style={{ margin: "14px auto 0", width: 70, height: 10, borderRadius: 5, background: j === 2 ? COLORS.accent : COLORS.grayDark }} />
         </div>
       ))}
       {Array.from({ length: 7 }).map((_, i) => {
@@ -276,7 +276,7 @@ const Ordena: React.FC<{ t: number }> = ({ t }) => {
               width: 160,
               height: 52,
               borderRadius: 12,
-              background: col === 2 ? COLORS.red : "#E6E6EA",
+              background: col === 2 ? COLORS.accent : COLORS.accentPale,
               opacity: p,
               rotate: `${(1 - p) * (i % 2 ? 12 : -12)}deg`,
             }}
@@ -493,7 +493,7 @@ export const S4Sistema: React.FC = () => {
               width: 190,
               height: 170,
               borderRadius: 26,
-              background: "#24272E",
+              background: COLORS.surface,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -502,8 +502,8 @@ export const S4Sistema: React.FC = () => {
               opacity: 1 - islandsOut,
             }}
           >
-            <Ghost size={78} color="#5B606B" strokeWidth={2.2} />
-            <div style={{ width: 110, height: 30, borderRadius: 15, border: "3px dashed #5B606B" }} />
+            <Ghost size={78} color="#6F879E" strokeWidth={2.2} />
+            <div style={{ width: 110, height: 30, borderRadius: 15, border: "3px dashed #6F879E" }} />
           </div>
           <div
             style={{
@@ -542,7 +542,7 @@ export const S4Sistema: React.FC = () => {
                   x2={x}
                   y1={deckY}
                   y2={lerp(deckY, archY(x), Math.min(1, p))}
-                  stroke={COLORS.red}
+                  stroke={COLORS.accent}
                   strokeWidth={5}
                   opacity={0.85}
                 />
@@ -551,7 +551,7 @@ export const S4Sistema: React.FC = () => {
             <path
               d={archPath}
               fill="none"
-              stroke={COLORS.red}
+              stroke={COLORS.accent}
               strokeWidth={10}
               strokeLinecap="round"
               {...evolvePath(archDraw, archPath)}
@@ -580,7 +580,7 @@ export const S4Sistema: React.FC = () => {
           width: deckR - deckL,
           height: deckH,
           borderRadius: deckH / 2,
-          background: COLORS.red,
+          background: COLORS.accent,
           opacity: deckRed,
           rotate: `${deckRot}deg`,
         }}
@@ -597,8 +597,8 @@ export const S4Sistema: React.FC = () => {
               width: Math.max(0, energyX - TRACK.l + 30),
               height: 10,
               borderRadius: 5,
-              background: COLORS.red,
-              boxShadow: `0 0 22px ${COLORS.red}, 0 0 6px ${COLORS.red}`,
+              background: COLORS.accent,
+              boxShadow: `0 0 22px ${COLORS.accent}, 0 0 6px ${COLORS.accent}`,
             }}
           />
           {energyX > 40 ? (
@@ -640,7 +640,7 @@ export const S4Sistema: React.FC = () => {
               height: 30 * fl.scale,
               borderRadius: 10,
               borderBottomLeftRadius: 3,
-              background: fl.passed >= 2 && fl.good ? COLORS.green : fl.good ? "#E6E6EA" : "#9A9AA2",
+              background: fl.passed >= 2 && fl.good ? COLORS.green : fl.good ? COLORS.accentPale : COLORS.grayDark,
               opacity: fl.opacity,
               rotate: `${fl.rotate}deg`,
             }}
@@ -667,7 +667,7 @@ export const S4Sistema: React.FC = () => {
                   width: NODE_D,
                   height: NODE_D,
                   borderRadius: "50%",
-                  border: `5px solid ${COLORS.red}`,
+                  border: `5px solid ${COLORS.accent}`,
                   scale: `${1 + ring * 0.9}`,
                   opacity: 1 - ring,
                 }}
@@ -676,9 +676,9 @@ export const S4Sistema: React.FC = () => {
             <IconBadge
               Icon={Icon}
               size={NODE_D}
-              bg={lit ? (k === 4 ? COLORS.green : COLORS.red) : COLORS.bgCard}
-              fg={lit ? COLORS.white : "#6B6B73"}
-              ring={lit ? undefined : "#34343B"}
+              bg={lit ? (k === 4 ? COLORS.green : COLORS.brand) : COLORS.bgCard}
+              fg={lit ? COLORS.white : COLORS.grayDark}
+              ring={lit ? COLORS.accent : COLORS.stroke}
               ringWidth={4}
               iconScale={0.48}
               style={{
@@ -686,7 +686,7 @@ export const S4Sistema: React.FC = () => {
                 left: x - NODE_D / 2,
                 top: PIPE_Y - NODE_D / 2,
                 scale: `${f >= morphAt + 8 + k * 2 ? appear * (lit ? 1 + 0.18 * Math.sin(Math.PI * Math.min(1, lp)) * (1 - Math.min(1, (f - litAt[k]) / 12)) : 1) : 0}`,
-                boxShadow: lit ? `0 0 34px ${k === 4 ? COLORS.green : COLORS.red}88` : undefined,
+                boxShadow: lit ? `0 0 34px ${k === 4 ? COLORS.green : COLORS.accent}88` : undefined,
               }}
             />
             {/* Labels: all under the line; odd nodes drop to a second row with a connector */}
@@ -699,7 +699,7 @@ export const S4Sistema: React.FC = () => {
                   width: 4,
                   height: 46,
                   borderRadius: 2,
-                  background: lit ? COLORS.white : "#4A4A52",
+                  background: lit ? COLORS.white : COLORS.stroke,
                   opacity: rise(f, morphAt + 12 + k * 2, 8),
                 }}
               />
@@ -716,7 +716,7 @@ export const S4Sistema: React.FC = () => {
                 fontSize: 34,
                 lineHeight: 1.08,
                 letterSpacing: "0.02em",
-                color: lit ? COLORS.white : "#83838D",
+                color: lit ? COLORS.white : COLORS.gray,
                 opacity: rise(f, morphAt + 12 + k * 2, 8),
                 whiteSpace: "pre-line",
               }}

@@ -129,7 +129,7 @@ export const RedBarText: React.FC<{
   align = "left",
   maxWidth = 900,
   lineHeight = 1.24,
-  barColor = COLORS.red,
+  barColor = COLORS.brand,
   textColor = COLORS.white,
   style,
 }) => {
@@ -181,7 +181,7 @@ export const Highlight: React.FC<{
   at: number;
   color?: string;
   dur?: number;
-}> = ({ children, f, at, color = COLORS.red, dur = 10 }) => {
+}> = ({ children, f, at, color = COLORS.accent, dur = 10 }) => {
   const p = rise(f, at, dur, EASE_OUT);
   return (
     <span style={{ position: "relative", display: "inline-block" }}>

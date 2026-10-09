@@ -3,12 +3,13 @@
  * animate from, so sound and picture can't drift when timings are re-locked.
  * Attack-aware: whooshes start before the cut so their peak lands on it.
  */
+import { CUTAWAYS, OVERLAYS, WIPES } from "../config/edit";
 import { SCENES, type SceneId } from "../config/timeline";
+import { PRICEWAR_BEATS } from "../edit/Overlays";
 import { S1_BEATS } from "../scenes/S1Hook";
 import { S2_BEATS } from "../scenes/S2OtroEscenario";
 import { S3_BEATS } from "../scenes/S3NoComparaIgual";
 import { S4_BEATS } from "../scenes/S4Sistema";
-import { S5_BEATS } from "../scenes/S5DejarDeCompetir";
 import { S6_BEATS } from "../scenes/S6Cierre";
 
 export type SfxName =
@@ -52,13 +53,15 @@ const hit = (scene: SceneId, local: number, name: SfxName, volume: number) => {
   hits.push({ name, at: SCENES[scene].from + local - (PEAK[name] ?? 0), volume });
 };
 
-// --- Scene boundaries ---------------------------------------------------------
-hit("s2", 0, "whoosh", 0.5); // red-bar wipe
-hit("s3", 0, "whoosh-short", 0.4); // push
-hit("s4", 0, "swish", 0.3); // match cut
-hit("s4", 0, "thud", 0.22);
-hit("s5", 0, "whoosh", 0.5); // red-bar wipe (vertical)
-hit("s6", 0, "whoosh-short", 0.4); // slide
+/** Add a hit whose PEAK lands at a global frame. */
+const hitAt = (frame: number, name: SfxName, volume: number) => {
+  hits.push({ name, at: frame - (PEAK[name] ?? 0), volume });
+};
+
+// --- Brand-bar wipes (into every cutaway + S1 -> S2) ---------------------------
+WIPES.forEach((w, k) => hitAt(w.at, k % 2 ? "whoosh-short" : "whoosh", 0.42));
+// Back to the face after a cutaway: a short swish on the punch-in.
+CUTAWAYS.filter((c) => c.id !== "endcard").forEach((c) => hitAt(c.to, "swish", 0.2));
 
 // --- S1 Hook ------------------------------------------------------------------
 {
@@ -98,7 +101,6 @@ hit("s6", 0, "whoosh-short", 0.4); // slide
   hit("s3", b.tipAt, "swish", 0.25);
   hit("s3", b.valeAt, "whoosh-short", 0.22);
   hit("s3", b.valeAt + 4, "thud", 0.2);
-  hit("s3", b.exitAt, "swish", 0.2);
 }
 
 // --- S4 El sistema ----------------------------------------------------------------
@@ -115,24 +117,22 @@ hit("s6", 0, "whoosh-short", 0.4); // slide
   b.conversions.forEach((t) => hit("s4", t, "tick", 0.1));
 }
 
-// --- S5 Dejar de competir ------------------------------------------------------------
+// --- S5 Dejar de competir (overlay beside the narrator) ------------------------
 {
-  const b = S5_BEATS;
-  hit("s5", b.drawFrom + 8, "downsweep", 0.28);
-  b.badgeAt.forEach((t) => hit("s5", t, "pop1", 0.2));
-  hit("s5", b.strikeAt, "strike", 0.42);
-  hit("s5", b.swapAt, "whoosh-short", 0.3);
-  hit("s5", b.swapAt + 6, "thud", 0.25);
-  hit("s5", b.riseAt + 40, "riser", 0.3);
-  hit("s5", b.haloAt, "ding", 0.3);
+  const b = PRICEWAR_BEATS;
+  hitAt(OVERLAYS.priceWar.from + 6, "downsweep", 0.26);
+  b.badgeAt.forEach((t) => hitAt(t, "pop1", 0.2));
+  hitAt(b.strikeAt, "strike", 0.42);
+  hitAt(b.swapAt, "whoosh-short", 0.3);
+  hitAt(b.swapAt + 6, "thud", 0.25);
+  hitAt(b.riseDone, "riser", 0.28);
+  hitAt(b.tVale, "ding", 0.3);
 }
 
 // --- S6 Cierre / CTA --------------------------------------------------------------------
 {
   const b = S6_BEATS;
   hit("s6", b.megaAt, "pop2", 0.3);
-  b.adsAt.forEach((t, k) => hit("s6", t, POPS[k + 1], 0.26)); // ads launched
-  b.crowdAt.forEach((t) => hit("s6", t, "pop1", 0.14)); // everyone has the same megaphone
   hit("s6", b.xAt, "buzz", 0.3);
   hit("s6", b.zoomAt + 6, "whoosh", 0.35);
   b.stageAppearAt.forEach((t) => hit("s6", t, "pop1", 0.14));
@@ -142,7 +142,9 @@ hit("s6", 0, "whoosh-short", 0.4); // slide
   hit("s6", b.endCardAt, "whoosh", 0.4);
   hit("s6", b.endCardAt + 4, "thud", 0.35);
   hit("s6", b.actionAt, "success", 0.5);
-  b.tapAt.forEach((t, k) => hit("s6", t, "click", k === 0 ? 0.45 : 0.22));
+  // Taps only once the end card is on screen.
+  const endFrom = CUTAWAYS.find((c) => c.id === "endcard")!.from - SCENES.s6.from;
+  b.tapAt.filter((t) => t >= endFrom).forEach((t, k) => hit("s6", t, "click", k === 0 ? 0.45 : 0.22));
 }
 
 export const SFX_HITS: SfxHit[] = hits.sort((a, b) => a.at - b.at);

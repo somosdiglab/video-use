@@ -9,7 +9,7 @@ import { CLAMP, EASE_IN_OUT } from "./anim";
  * Red-bar wipes at scene boundaries. The bar is wider than the frame, so the
  * screen is fully red for ~2 frames around the cut — the cut hides under it.
  */
-const Bars: React.FC<{ boundary: number; frames: number; vertical: boolean }> = ({
+export const Bars: React.FC<{ boundary: number; frames: number; vertical: boolean }> = ({
   boundary,
   frames,
   vertical,
@@ -36,8 +36,8 @@ const Bars: React.FC<{ boundary: number; frames: number; vertical: boolean }> = 
 
   return (
     <AbsoluteFill>
-      <div style={bar(leadPos, lead, COLORS.redDeep)} />
-      <div style={bar(mainPos, main, COLORS.red)} />
+      <div style={bar(leadPos, lead, COLORS.accent)} />
+      <div style={bar(mainPos, main, COLORS.brand)} />
     </AbsoluteFill>
   );
 };
