@@ -21,7 +21,7 @@ const GENERIC = [
   poly([[70, 560], [160, 640], [270, 632], [360, 760], [470, 748], [570, 846], [700, 836], [860, 892]]),
 ];
 /** Where along each falling line its discount sits (fraction of length). */
-const BADGE_AT = [0.42, 0.58, 0.74, 0.9];
+const BADGE_AT = [0.28, 0.46, 0.64, 0.8];
 const DISCOUNTS = ["-10%", "-20%", "-30%", "-40%"];
 // Your clinic: follows the pack, then breaks away upward.
 const OURS = "M 70 560 L 190 590 L 300 600 C 380 606 430 520 520 462 S 760 344 880 318";
@@ -177,23 +177,23 @@ export const S5DejarDeCompetir: React.FC = () => {
           <React.Fragment key={k}>
             <IconBadge
               Icon={Building2}
-              size={56}
+              size={66}
               bg="#2A2A31"
-              fg={COLORS.gray}
-              style={{ position: "absolute", left: pt.x - 28, top: pt.y - 28 }}
+              fg={COLORS.grayLight}
+              style={{ position: "absolute", left: pt.x - 33, top: pt.y - 33 }}
             />
             {f >= badgeAt ? (
               <div
                 style={{
                   position: "absolute",
-                  left: bpt.x - 40,
-                  top: bpt.y - 70,
+                  left: bpt.x - 56 + (k % 2) * 30,
+                  top: bpt.y - 84,
                   background: COLORS.red,
                   color: COLORS.white,
                   fontFamily: FONT_STACK,
                   fontWeight: 900,
-                  fontSize: 32,
-                  padding: "4px 12px",
+                  fontSize: 42,
+                  padding: "4px 14px",
                   borderRadius: 10,
                   scale: `${pop(f, badgeAt, 10)}`,
                   opacity: 1 - 0.5 * halo,

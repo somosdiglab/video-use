@@ -31,11 +31,12 @@ import { FONT_STACK } from "../components/fonts";
 import { Avatar, IconBadge } from "../components/Pieces";
 import { SceneFrame, useScene } from "../components/SceneFrame";
 import { cuesOf } from "../config/timeline";
-import { KineticWords, RedBarText } from "../components/Text";
-import { MATCH_LINE } from "./shared";
+import { breakWords, KineticWords, RedBarText } from "../components/Text";
+import { MATCH_ANGLE, MATCH_LINE } from "./shared";
 
 const NODE_X = [96, 288, 480, 672, 864];
-const PIPE_Y = 650;
+const PIPE_Y = 612;
+const TRACK = { l: 30, r: 930 }; // side margins: nothing touches the frame edge
 const NODE_D = 116;
 const BRIDGE_Y = 470;
 const DECK = { l: 210, r: 750 };
@@ -46,7 +47,7 @@ const DARK_LINE = "#2C2C33";
 // ---------- Lead-bubble flow along the pipeline ------------------------------
 const SPAWN_EVERY = 5;
 const SPEED = 11; // px per frame
-const START_X = -30;
+const START_X = 24;
 
 type Flow = {
   x: number;
@@ -80,11 +81,11 @@ const flowState = (i: number, spawn0: number, litAt: number[], f: number): Flow 
     // PRECALIFICA discards low-quality leads.
     if (k === 1 && !good) {
       const d = f - reach[k];
-      if (d > 16) return null;
+      if (d > 10) return null;
       return {
         x: NODE_X[1] + d * 3,
-        y: PIPE_Y + jitter + 0.9 * d * d,
-        opacity: 1 - d / 16,
+        y: PIPE_Y + jitter + 1.4 * d * d,
+        opacity: 1 - d / 10,
         scale: 1,
         rotate: d * 9,
         good,
@@ -94,12 +95,12 @@ const flowState = (i: number, spawn0: number, litAt: number[], f: number): Flow 
     }
   }
   const x = xAt(f);
-  if (x > 1000) return null;
+  if (x > TRACK.r + 10) return null;
   const ordered = passed >= 3 ? 1 : 0;
   return {
     x,
     y: PIPE_Y + jitter * (1 - ordered),
-    opacity: interpolate(x, [START_X, START_X + 30, 930, 990], [0, 1, 1, 0], CLAMP),
+    opacity: interpolate(x, [START_X, START_X + 24, TRACK.r - 40, TRACK.r], [0, 1, 1, 0], CLAMP),
     scale: 1,
     rotate: 0,
     good,
@@ -167,7 +168,7 @@ const Capta: React.FC<{ t: number; labelT: number }> = ({ t, labelT }) => {
         return (
           <LeadChip
             key={i}
-            x={lerp(-60, magnet.x - 70, p)}
+            x={lerp(70, magnet.x - 70, p)}
             y={lerp(sy, magnet.y, p * p)}
             s={1 - 0.45 * p}
             o={interpolate(p, [0, 0.15, 0.85, 1], [0, 1, 1, 0])}
@@ -212,7 +213,7 @@ const Precalifica: React.FC<{ t: number }> = ({ t }) => {
             <LeadChip
               key={i}
               x={fx + (hash01(i) - 0.5) * 140 * (1 - inP)}
-              y={lerp(150, 300, inP) + outP * 150}
+              y={lerp(185, 300, inP) + outP * 140}
               s={0.8 - 0.25 * inP}
               color={inP >= 1 ? COLORS.green : "#E6E6EA"}
               o={1 - outP}
@@ -226,7 +227,7 @@ const Precalifica: React.FC<{ t: number }> = ({ t }) => {
           <LeadChip
             key={i}
             x={fx + side * (60 + bounce * 260)}
-            y={lerp(150, 230, inP) + bounce * bounce * 220 - Math.sin(bounce * Math.PI) * 60}
+            y={lerp(185, 240, inP) + bounce * bounce * 200 - Math.sin(bounce * Math.PI) * 60}
             s={0.8}
             color={COLORS.grayDark}
             o={1 - bounce}
@@ -388,7 +389,7 @@ const Convierte: React.FC<{ t: number; outcomeT: number }> = ({ t, outcomeT }) =
       />
       <div style={{ position: "absolute", left: 0, top: 362, width: 960 }}>
         <KineticWords
-          text={COPY.s4.outcome}
+          text={breakWords(COPY.s4.outcome, [2, 2])}
           f={outcomeT}
           at={0}
           fontSize={56}
@@ -422,11 +423,13 @@ export const S4Sistema: React.FC = () => {
   const contract = rise(f, 0, 16, EASE_IN_OUT);
   const morph = rise(f, morphAt, 16, EASE_IN_OUT);
   const deckY = lerp(lerp(MATCH_LINE.y, BRIDGE_Y, contract), PIPE_Y, morph);
-  const deckL = lerp(lerp(0, DECK.l, contract), 0, morph);
-  const deckR = lerp(lerp(960, DECK.r, contract), 960, morph);
+  const deckL = lerp(lerp(0, DECK.l, contract), TRACK.l, morph);
+  const deckR = lerp(lerp(960, DECK.r, contract), TRACK.r, morph);
   const deckH = lerp(lerp(MATCH_LINE.h, 12, contract), 10, morph);
   const archRise = ARCH_RISE * (1 - morph);
-  const archDraw = rise(f, 8, 20, EASE_IN_OUT);
+  const archDraw = rise(f, 10, 20, EASE_IN_OUT);
+  // Match cut: the line arrives tipped like the S3 beam, then levels into the deck.
+  const deckRot = MATCH_ANGLE * (1 - rise(f, 0, 10, EASE_IN_OUT));
   const islandsIn = rise(f, 4, 14);
   const islandsOut = morph;
   const archPath = `M ${deckL} ${deckY} Q ${(deckL + deckR) / 2} ${deckY - 2 * archRise} ${deckR} ${deckY}`;
@@ -439,7 +442,7 @@ export const S4Sistema: React.FC = () => {
   // Pipeline
   let energyX = 0;
   for (let k = 0; k < NODE_X.length; k++) {
-    const prev = k === 0 ? 0 : NODE_X[k - 1];
+    const prev = k === 0 ? TRACK.l : NODE_X[k - 1];
     energyX += (NODE_X[k] - prev) * settle(f, litAt[k] - 5, 10);
   }
   const flows = Array.from({ length: Math.max(0, Math.ceil((f - spawn0) / SPAWN_EVERY) + 1) })
@@ -566,6 +569,7 @@ export const S4Sistema: React.FC = () => {
           height: deckH,
           borderRadius: deckH / 2,
           background: DARK_LINE,
+          rotate: `${deckRot}deg`,
         }}
       />
       <div
@@ -578,6 +582,7 @@ export const S4Sistema: React.FC = () => {
           borderRadius: deckH / 2,
           background: COLORS.red,
           opacity: deckRed,
+          rotate: `${deckRot}deg`,
         }}
       />
 
@@ -587,9 +592,9 @@ export const S4Sistema: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              left: 0,
+              left: TRACK.l,
               top: PIPE_Y - 5,
-              width: energyX,
+              width: Math.max(0, energyX - TRACK.l + 30),
               height: 10,
               borderRadius: 5,
               background: COLORS.red,
@@ -600,7 +605,7 @@ export const S4Sistema: React.FC = () => {
             <div
               style={{
                 position: "absolute",
-                left: ((f * 16) % energyX) - 30,
+                left: TRACK.l + ((f * 16) % Math.max(1, energyX - TRACK.l)) - 30,
                 top: PIPE_Y - 4,
                 width: 60,
                 height: 8,
@@ -684,20 +689,34 @@ export const S4Sistema: React.FC = () => {
                 boxShadow: lit ? `0 0 34px ${k === 4 ? COLORS.green : COLORS.red}88` : undefined,
               }}
             />
+            {/* Labels: all under the line; odd nodes drop to a second row with a connector */}
+            {!below ? (
+              <div
+                style={{
+                  position: "absolute",
+                  left: x - 2,
+                  top: PIPE_Y + NODE_D / 2 + 4,
+                  width: 4,
+                  height: 46,
+                  borderRadius: 2,
+                  background: lit ? COLORS.white : "#4A4A52",
+                  opacity: rise(f, morphAt + 12 + k * 2, 8),
+                }}
+              />
+            ) : null}
             <div
               style={{
                 position: "absolute",
-                left: k === 0 ? 30 : k === 4 ? 640 : x - 150,
-                width: k === 0 || k === 4 ? 290 : 300,
-                top: below ? PIPE_Y + NODE_D / 2 + 16 : undefined,
-                bottom: below ? undefined : 960 - (PIPE_Y - NODE_D / 2 - 16),
+                left: k === 0 ? TRACK.l : k === 4 ? TRACK.r - 300 : x - 160,
+                width: k === 0 || k === 4 ? 300 : 320,
+                top: PIPE_Y + NODE_D / 2 + (below ? 14 : 56),
                 textAlign: k === 0 ? "left" : k === 4 ? "right" : "center",
                 fontFamily: FONT_STACK,
                 fontWeight: 800,
-                fontSize: 30,
-                lineHeight: 1.1,
+                fontSize: 34,
+                lineHeight: 1.08,
                 letterSpacing: "0.02em",
-                color: lit ? COLORS.white : "#5E5E66",
+                color: lit ? COLORS.white : "#83838D",
                 opacity: rise(f, morphAt + 12 + k * 2, 8),
                 whiteSpace: "pre-line",
               }}
@@ -741,7 +760,7 @@ export const S4Sistema: React.FC = () => {
           style={{
             position: "absolute",
             right: 30,
-            top: 800,
+            top: 850,
             display: "flex",
             alignItems: "center",
             gap: 16,

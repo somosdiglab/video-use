@@ -131,6 +131,8 @@ hit("s6", 0, "whoosh-short", 0.4); // slide
 {
   const b = S6_BEATS;
   hit("s6", b.megaAt, "pop2", 0.3);
+  b.adsAt.forEach((t, k) => hit("s6", t, POPS[k + 1], 0.26)); // ads launched
+  b.crowdAt.forEach((t) => hit("s6", t, "pop1", 0.14)); // everyone has the same megaphone
   hit("s6", b.xAt, "buzz", 0.3);
   hit("s6", b.zoomAt + 6, "whoosh", 0.35);
   b.stageAppearAt.forEach((t) => hit("s6", t, "pop1", 0.14));
@@ -140,7 +142,7 @@ hit("s6", 0, "whoosh-short", 0.4); // slide
   hit("s6", b.endCardAt, "whoosh", 0.4);
   hit("s6", b.endCardAt + 4, "thud", 0.35);
   hit("s6", b.actionAt, "success", 0.5);
-  hit("s6", b.clickAt, "click", 0.5);
+  b.tapAt.forEach((t, k) => hit("s6", t, "click", k === 0 ? 0.45 : 0.22));
 }
 
 export const SFX_HITS: SfxHit[] = hits.sort((a, b) => a.at - b.at);

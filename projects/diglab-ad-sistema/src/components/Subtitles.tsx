@@ -1,9 +1,7 @@
 import React, { useMemo } from "react";
 import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
-import { createTikTokStyleCaptions } from "@remotion/captions";
-import type { Caption, TikTokPage } from "@remotion/captions";
 import { COLORS, TYPE } from "../config/brand";
-import { msToFrame, VO_WORDS } from "../config/timeline";
+import { FPS, msToFrame, SCENES, VO_WORDS } from "../config/timeline";
 import { rise } from "./anim";
 import { FONT_STACK } from "./fonts";
 import { useLayout } from "./Layout";
@@ -14,29 +12,51 @@ import { useLayout } from "./Layout";
  * pill), the spoken word marked with a red block. Text comes from the script
  * (verbatim), timing from vo-timing.json.
  */
-const SWITCH_EVERY_MS = 1250;
+const TARGET_MS = 1150; // aim for ~1.1s per page
+const MAX_CHARS = 26;
+const MAX_WORDS = 6;
 const LINGER_MS = 350;
 
-const buildPages = (): TikTokPage[] => {
-  const captions: Caption[] = VO_WORDS.map((w, idx) => {
+/** Words that should never be left dangling at the end of a page. */
+const FUNCTION_WORDS = new Set([
+  "a", "al", "de", "del", "el", "la", "las", "lo", "los", "un", "una", "en", "tu",
+  "que", "qué", "y", "o", "por", "es", "no", "va", "se", "te", "ya", "sin", "con",
+  "hacia", "hacé", "si", "cómo", "este", "ese", "sea", "las", "muchas", "solo",
+]);
+
+type Token = { text: string; fromMs: number; toMs: number };
+type Page = { startMs: number; endMs: number; tokens: Token[] };
+
+const bare = (t: string) => t.toLowerCase().replace(/[¿¡.,;:!?…"]/g, "");
+
+const buildPages = (): Page[] => {
+  const pages: Page[] = [];
+  let cur: Token[] = [];
+  VO_WORDS.forEach((w, idx) => {
     const next = VO_WORDS[idx + 1];
-    return {
-      text: (idx === 0 ? "" : " ") + w.text,
-      startMs: w.startMs,
-      endMs: w.endMs,
-      timestampMs: w.startMs,
-      confidence: null,
-      // New page after each sentence and at every scene change.
-      pageBreakAfter: /[.?!…]$/.test(w.text) || !next || next.scene !== w.scene,
-    };
+    cur.push({ text: w.text, fromMs: w.startMs, toMs: w.endMs });
+    const sceneEnds = !next || next.scene !== w.scene;
+    const sentenceEnds = /[.?!…]$/.test(w.text);
+    const dur = w.endMs - cur[0].fromMs;
+    const chars = cur.map((t) => t.text).join(" ").length;
+    const comma = /[,;:]$/.test(w.text);
+    const long = dur >= TARGET_MS || chars >= MAX_CHARS || cur.length >= MAX_WORDS;
+    const dangling = !comma && FUNCTION_WORDS.has(bare(w.text)) && cur.length < MAX_WORDS;
+    if (sceneEnds || sentenceEnds || (comma && dur >= 600) || (long && !dangling)) {
+      // A scene's last page never lingers into the next scene.
+      const sceneEndMs = (SCENES[w.scene].end / FPS) * 1000;
+      pages.push({ startMs: cur[0].fromMs, endMs: sceneEndMs, tokens: cur });
+      cur = [];
+    }
   });
-  return createTikTokStyleCaptions({
-    captions,
-    combineTokensWithinMilliseconds: SWITCH_EVERY_MS,
-  }).pages;
+  return pages.map((pg, i) => {
+    const nxt = pages[i + 1];
+    const last = pg.tokens[pg.tokens.length - 1];
+    return { ...pg, endMs: Math.min(pg.endMs, nxt ? nxt.startMs : Infinity, last.toMs + LINGER_MS) };
+  });
 };
 
-const CaptionPage: React.FC<{ page: TikTokPage }> = ({ page }) => {
+const CaptionPage: React.FC<{ page: Page }> = ({ page }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const L = useLayout();
@@ -102,11 +122,8 @@ export const Subtitles: React.FC = () => {
   return (
     <AbsoluteFill style={{ pointerEvents: "none" }}>
       {pages.map((page, i) => {
-        const next = pages[i + 1];
-        const lastTok = page.tokens[page.tokens.length - 1];
         const from = msToFrame(page.startMs);
-        const endMs = Math.min(next ? next.startMs : Infinity, lastTok.toMs + LINGER_MS);
-        const dur = msToFrame(endMs) - from;
+        const dur = msToFrame(page.endMs) - from;
         if (dur <= 0) return null;
         return (
           <Sequence key={i} from={from} durationInFrames={dur} name={`Sub ${i + 1}`}>

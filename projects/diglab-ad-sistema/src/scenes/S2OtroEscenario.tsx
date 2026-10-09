@@ -4,7 +4,7 @@ import { Award, Check, Lock, ShieldCheck, Sparkles, UserRound, Users } from "luc
 import type { LucideIcon } from "lucide-react";
 import { COLORS } from "../config/brand";
 import { COPY } from "../config/copy";
-import { CLAMP, EASE_IN, fall, lerp, pop, rise, settle } from "../components/anim";
+import { CLAMP, EASE_IN, EASE_IN_OUT, fall, lerp, pop, rise, settle } from "../components/anim";
 import { FONT_STACK } from "../components/fonts";
 import { Avatar, ChatBubble, IconBadge, PriceTag } from "../components/Pieces";
 import { SceneFrame, useScene } from "../components/SceneFrame";
@@ -14,7 +14,7 @@ import { breakWords, KineticWords, RedBarText } from "../components/Text";
 const CARD_Y = [268, 446, 624];
 const CARD_H = 150;
 const PATH_X = 96;
-const TOKEN_STOPS = [236, CARD_Y[0] + CARD_H / 2, CARD_Y[1] + CARD_H / 2, CARD_Y[2] + CARD_H / 2, 862];
+const TOKEN_STOPS = [262, CARD_Y[0] + CARD_H / 2, CARD_Y[1] + CARD_H / 2, CARD_Y[2] + CARD_H / 2, 862];
 const TOUCHPOINTS: { label: string; Icon: LucideIcon }[] = [
   { label: COPY.s2.team, Icon: Users },
   { label: COPY.s2.trackRecord, Icon: Award },
@@ -56,26 +56,30 @@ const Toggle: React.FC<{ on: number; scale?: number }> = ({ on, scale = 1 }) => 
 export const S2_BEATS = (() => {
   const { c, ce, dur } = cuesOf("s2");
   const layoutAt = c("antesPrecio") - 4;
-  const unlockAt = Math.min(c("diferente") + 18, dur - 22);
+  const cardAt = [c("equipo"), c("trayectoria"), c("queHace")];
+  // Resolve right after "diferente" so the payoff holds before the push.
+  const unlockAt = Math.min(c("diferente") + 6, dur - 30);
   return {
     flipAt: c("otroEscenario") - 6,
     layoutAt,
-    slotsAt: Math.min(c("aseguraste"), layoutAt + 16),
-    cardAt: [c("equipo"), c("trayectoria"), c("queHace")],
+    // Each dashed slot shows up shortly before its card (no long empty stretch).
+    slotAt: cardAt.map((t, k) => Math.max(layoutAt + 14, t - (k === 0 ? 40 : 16))),
+    walkFrom: c("aseguraste"),
+    cardAt,
     priceAt: ce("antesPrecio") - 4,
     unlockAt,
     qAt: c("queHace") + 10,
-    qOut: unlockAt - 6,
+    qOut: unlockAt - 4,
   };
 })();
 
 export const S2OtroEscenario: React.FC = () => {
   const { f, c } = useScene("s2");
-  const { flipAt, layoutAt, slotsAt, cardAt, priceAt, unlockAt, qAt, qOut } = S2_BEATS;
+  const { flipAt, layoutAt, slotAt, walkFrom, cardAt, priceAt, unlockAt, qAt, qOut } = S2_BEATS;
 
   // Beat A — the switch flips: another scenario.
   const on = settle(f, flipAt, 10);
-  const headerOut = rise(f, layoutAt, 12, EASE_IN);
+  const headerOut = rise(f, layoutAt, 8, EASE_IN);
 
   // Beat B — trust touchpoints before the price.
   const q = rise(f, qAt, 10) * fall(f, qOut, 8);
@@ -86,11 +90,17 @@ export const S2OtroEscenario: React.FC = () => {
   const full = rise(f, cardAt[2] + 14, 8);
 
   // Patient token walks the path: start -> each touchpoint -> price.
-  const stopTimes = [layoutAt + 10, ...cardAt, unlockAt + 2];
-  let tokenY = TOKEN_STOPS[0];
-  for (let k = 1; k < TOKEN_STOPS.length; k++) {
-    tokenY = lerp(tokenY, TOKEN_STOPS[k], settle(f, stopTimes[k], 14));
+  // The patient walks steadily toward the first touchpoint, then steps through.
+  let tokenY = interpolate(f, [walkFrom, cardAt[0]], [TOKEN_STOPS[0], TOKEN_STOPS[1]], {
+    ...CLAMP,
+    easing: EASE_IN_OUT,
+  });
+  const stepTimes = [cardAt[1], cardAt[2], unlockAt + 2];
+  for (let k = 2; k < TOKEN_STOPS.length; k++) {
+    tokenY = lerp(tokenY, TOKEN_STOPS[k], settle(f, stepTimes[k - 2], 14));
   }
+  const walking = f >= walkFrom && f < cardAt[0];
+  const bob = walking ? Math.abs(Math.sin((f - walkFrom) / 4)) * -8 : 0;
   const unlocked = rise(f, unlockAt, 8);
 
   return (
@@ -152,14 +162,14 @@ export const S2OtroEscenario: React.FC = () => {
       </div>
 
       {f >= layoutAt ? (
-        <div style={{ position: "absolute", inset: 0, opacity: 1 - 0.93 * q, filter: q > 0 ? `blur(${q * 6}px)` : undefined }}>
+        <div style={{ position: "absolute", inset: 0, opacity: 1 - q, filter: q > 0 ? `blur(${q * 6}px)` : undefined }}>
           {/* Patient + trust meter */}
           <Avatar
             size={112}
             Icon={UserRound}
             bg={COLORS.ink}
             fg={COLORS.white}
-            style={{ position: "absolute", left: 40, top: 100, scale: `${pop(f, layoutAt + 4)}` }}
+            style={{ position: "absolute", left: 40, top: 100, scale: `${pop(f, layoutAt + 7)}` }}
           />
           <div
             style={{
@@ -171,7 +181,7 @@ export const S2OtroEscenario: React.FC = () => {
               borderRadius: 25,
               background: "#E2E1DB",
               overflow: "hidden",
-              opacity: rise(f, layoutAt + 8, 10),
+              opacity: rise(f, layoutAt + 10, 10),
             }}
           >
             <div
@@ -206,6 +216,7 @@ export const S2OtroEscenario: React.FC = () => {
               height: interpolate(rise(f, layoutAt + 10, 24), [0, 1], [0, 620], CLAMP),
               backgroundImage: "radial-gradient(circle, #B9B8B1 3.5px, transparent 4px)",
               backgroundSize: "8px 22px",
+              backgroundPosition: `0px ${(f * 0.9) % 22}px`,
             }}
           />
 
@@ -224,7 +235,7 @@ export const S2OtroEscenario: React.FC = () => {
                     height: 26,
                     borderRadius: "50%",
                     background: shown ? COLORS.red : "#CFCEC7",
-                    opacity: rise(f, slotsAt + k * 4, 8),
+                    opacity: rise(f, slotAt[k], 8),
                   }}
                 />
                 <div
@@ -236,7 +247,7 @@ export const S2OtroEscenario: React.FC = () => {
                     height: CARD_H,
                     borderRadius: 28,
                     border: "4px dashed #CFCEC7",
-                    opacity: rise(f, slotsAt + k * 4, 8) * (shown ? 0 : 1),
+                    opacity: rise(f, slotAt[k], 8) * (shown ? 0 : 1),
                   }}
                 />
                 <div
@@ -317,15 +328,16 @@ export const S2OtroEscenario: React.FC = () => {
               display: "flex",
               alignItems: "center",
               gap: 16,
-              scale: `${pop(f, unlockAt + 4, 13)}`,
+              scale: `${pop(f, priceAt + 10, 13)}`,
               transformOrigin: "0% 100%",
-              opacity: f >= unlockAt + 4 ? 1 : 0,
+              opacity: f >= priceAt + 10 ? 1 : 0,
             }}
           >
+            {/* The patient wants to ask the price... but it waits for trust first */}
             <ChatBubble
               text={COPY.s1.leadMessage}
-              t={f - (unlockAt + 4)}
-              typingFrames={0}
+              t={f - (priceAt + 10)}
+              typingFrames={unlockAt + 4 - (priceAt + 10)}
               charsPerFrame={4}
               bg={COLORS.paperCard}
               color={COLORS.ink}
@@ -349,8 +361,8 @@ export const S2OtroEscenario: React.FC = () => {
             style={{
               position: "absolute",
               left: PATH_X - 36,
-              top: tokenY - 36,
-              scale: `${pop(f, layoutAt + 12)}`,
+              top: tokenY - 36 + bob,
+              scale: `${pop(f, walkFrom - 6)}`,
               boxShadow: `0 0 0 ${6 + 10 * full}px ${full > 0.5 ? COLORS.green : COLORS.red}33`,
             }}
           />

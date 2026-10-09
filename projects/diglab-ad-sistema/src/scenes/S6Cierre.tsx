@@ -7,7 +7,7 @@ import {
   ChevronDown,
   Megaphone,
   MessageCircle,
-  MousePointer2,
+  Pointer,
   Repeat,
   Stethoscope,
   X,
@@ -39,20 +39,32 @@ const framePath = () => {
 };
 const MEGA = { x: 480, y: 330, size: 240 };
 
+/** 0..1 press amount around the nearest tap (quick down, quick up). */
+const tapPress = (f: number, taps: number[]) =>
+  Math.max(0, ...taps.map((t) => (f >= t - 3 && f < t + 6 ? Math.sin(Math.PI * ((f - (t - 3)) / 9)) : 0)));
+
 /** Key beats (scene-local frames) — shared with the SFX cue sheet. */
 export const S6_BEATS = (() => {
-  const { c } = cuesOf("s6");
+  const { c, dur } = cuesOf("s6");
   return {
     megaAt: -6, // visible while the scene slides in
+    // "lanzar campañas publicitarias": ads fly out of the megaphone
+    adsAt: [0, 1, 2].map((k) => c("campanas") + 4 + k * 7),
+    // "ya no es más un diferencial": everyone has the same megaphone
+    crowdAt: [0, 1, 2, 3, 4, 5].map((k) => c("diferencial") - 26 + k * 3),
     xAt: c("diferencial"),
     zoomAt: c("chip"),
     stageAppearAt: [0, 1, 2, 3].map((k) => Math.round(c("chip") + 6 + 40 * ((k + 1) / 4) - 4)),
     frameAt: c("sistemaCompleto"),
     lightAt: [0, 1, 2, 3, 4].map((k) => c("etapas") + k * 7),
     endCardAt: c("siTeInteresa"),
-    actionAt: c("clic") - 4,
-    arrowAt: c("clic"),
-    clickAt: c("anuncio"),
+    // Benefit first, action ~0.8s later: both on screen for ~5s.
+    actionAt: c("siTeInteresa") + 24,
+    arrowAt: c("siTeInteresa") + 34,
+    // Repeating taps until the end so the card never sits still.
+    tapAt: Array.from({ length: 12 })
+      .map((_, k) => c("siTeInteresa") + 34 + 20 + k * 30)
+      .filter((t) => t < dur - 8),
   };
 })();
 
@@ -60,7 +72,7 @@ export const S6Cierre: React.FC = () => {
   const { f, c } = useScene("s6");
 
   // Beat A — a lone campaign is not enough.
-  const { xAt, lightAt: lights, endCardAt: E, actionAt, stageAppearAt } = S6_BEATS;
+  const { xAt, adsAt, crowdAt, lightAt: lights, endCardAt: E, actionAt, arrowAt, tapAt, stageAppearAt } = S6_BEATS;
   const lightAt = (k: number) => lights[k];
   const shake = f >= xAt ? Math.sin((f - xAt) * 1.6) * 5 * Math.max(0, 1 - (f - xAt) / 14) : 0;
   // Beat B — zoom out: the ad is only the entry point of the patient journey.
@@ -174,6 +186,73 @@ export const S6Cierre: React.FC = () => {
           />
         ) : null}
 
+        {/* Ads launched: cards fly out of the megaphone and stack */}
+        {zoom < 1
+          ? adsAt.map((at, k) => {
+              const p = pop(f, at, 12);
+              if (f < at) return null;
+              const dim = rise(f, xAt - 4, 10);
+              return (
+                <div
+                  key={k}
+                  style={{
+                    position: "absolute",
+                    left: lerp(MEGA.x + 40, 620 + k * 34, p),
+                    top: lerp(MEGA.y - 40, 150 + k * 40, p),
+                    width: 170,
+                    height: 210,
+                    borderRadius: 18,
+                    background: "#2E2E35",
+                    border: "3px solid #4A4A52",
+                    padding: 14,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                    rotate: `${lerp(-20, -6 + k * 7, p)}deg`,
+                    scale: `${0.4 + 0.6 * p}`,
+                    opacity: (1 - zoom) * (1 - 0.55 * dim),
+                    filter: `grayscale(${dim})`,
+                  }}
+                >
+                  <div style={{ height: 92, borderRadius: 10, background: k === 1 ? COLORS.red : "#55555E" }} />
+                  <div style={{ height: 12, borderRadius: 6, background: "#6A6A74", width: "90%" }} />
+                  <div style={{ height: 12, borderRadius: 6, background: "#6A6A74", width: "60%" }} />
+                </div>
+              );
+            })
+          : null}
+        {/* Everyone runs ads: identical megaphones -> no differentiator */}
+        {zoom < 1
+          ? crowdAt.map((at, k) => {
+              const pos = [
+                [130, 150],
+                [830, 130],
+                [100, 420],
+                [870, 430],
+                [250, 60],
+                [700, 40],
+              ][k];
+              if (f < at) return null;
+              return (
+                <IconBadge
+                  key={k}
+                  Icon={Megaphone}
+                  size={124}
+                  bg="#26262C"
+                  fg="#8A8A90"
+                  iconScale={0.46}
+                  style={{
+                    position: "absolute",
+                    left: pos[0] - 62,
+                    top: pos[1] - 62,
+                    scale: `${pop(f, at, 12)}`,
+                    opacity: (1 - zoom) * fall(f, c("chip") - 6, 8),
+                  }}
+                />
+              );
+            })
+          : null}
+
         {/* The megaphone (the ad) */}
         <div
           style={{
@@ -221,7 +300,7 @@ export const S6Cierre: React.FC = () => {
           }}
         >
           <KineticWords
-            text={COPY.s6.notEnough}
+            text={breakWords(COPY.s6.notEnough, [2, 3, 3])}
             f={f}
             at={c("campanas")}
             stagger={2}
@@ -260,7 +339,7 @@ export const S6Cierre: React.FC = () => {
             style={{
               position: "absolute",
               left: 0,
-              top: 24,
+              top: 20,
               width: 960,
               display: "flex",
               justifyContent: "center",
@@ -270,78 +349,84 @@ export const S6Cierre: React.FC = () => {
           >
             <Logo height={110} />
           </div>
-          <div style={{ position: "absolute", left: 0, top: 210, width: 960, display: "flex", justifyContent: "center" }}>
+          {/* Benefit first */}
+          <div style={{ position: "absolute", left: 0, top: 196, width: 960, display: "flex", justifyContent: "center" }}>
             <RedBarText
               text={breakWords(COPY.s6.benefit, [3, 3])}
               f={f}
               at={E + 4}
-              fontSize={70}
+              fontSize={74}
               align="center"
               style={{ whiteSpace: "pre-line" }}
             />
           </div>
-          <div style={{ position: "absolute", left: 0, top: 432, width: 960 }}>
+          {/* ...then the action */}
+          <div style={{ position: "absolute", left: 0, top: 428, width: 960 }}>
             <KineticWords
               text={breakWords(COPY.s6.action, [4, 3])}
               f={f}
               at={actionAt}
               stagger={2}
-              fontSize={54}
+              fontSize={58}
               weight={800}
               lineHeight={1.14}
-              style={{ maxWidth: 820, margin: "0 auto" }}
+              style={{ maxWidth: 860, margin: "0 auto" }}
             />
           </div>
-          {f >= c("clic") ? (
+          {f >= arrowAt ? (
             <>
-              {/* Click cue: arrow down toward Meta's CTA button below the video */}
+              {/* Tap cue: arrow down toward Meta's CTA button below the video */}
               <div
                 style={{
                   position: "absolute",
-                  left: 480 - 64,
+                  left: 480 - 66,
                   top: 640,
-                  scale: `${pop(f, c("clic"), 10)}`,
-                  translate: `0px ${Math.abs(Math.sin((f - c("clic")) / 6)) * 18}px`,
+                  scale: `${pop(f, arrowAt, 10) * (1 - 0.08 * tapPress(f, tapAt))}`,
+                  translate: `0px ${Math.abs(Math.sin((f - arrowAt) / 6)) * 14}px`,
                 }}
               >
-                <IconBadge Icon={ArrowDown} size={128} iconScale={0.55} style={{ boxShadow: `0 0 40px ${COLORS.red}88` }} />
-                {f >= c("anuncio") ? (
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      borderRadius: "50%",
-                      border: `5px solid ${COLORS.white}`,
-                      scale: `${1 + rise(f, c("anuncio"), 16, EASE_OUT) * 0.9}`,
-                      opacity: 1 - rise(f, c("anuncio"), 16),
-                    }}
-                  />
-                ) : null}
+                <IconBadge Icon={ArrowDown} size={132} iconScale={0.55} style={{ boxShadow: `0 0 44px ${COLORS.red}99` }} />
+                {tapAt.map((t) =>
+                  f >= t && f < t + 18 ? (
+                    <div
+                      key={t}
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        borderRadius: "50%",
+                        border: `5px solid ${COLORS.white}`,
+                        scale: `${1 + rise(f, t, 18, EASE_OUT) * 0.9}`,
+                        opacity: 1 - rise(f, t, 18),
+                      }}
+                    />
+                  ) : null,
+                )}
               </div>
-              {[0, 1].map((k) => (
+              {[0, 1, 2].map((k) => (
                 <div
                   key={k}
                   style={{
                     position: "absolute",
-                    left: 480 - 32,
-                    top: 790 + k * 46,
-                    opacity: 0.35 + 0.65 * Math.max(0, Math.sin((f - c("clic")) / 5 - k * 0.9)),
+                    left: 480 - 34,
+                    top: 800 + k * 48,
+                    opacity: rise(f, arrowAt + 4, 8) * (0.3 + 0.7 * Math.max(0, Math.sin((f - arrowAt) / 5 - k * 0.9))),
                   }}
                 >
-                  <ChevronDown size={64} color={COLORS.white} strokeWidth={3} />
+                  <ChevronDown size={68} color={COLORS.white} strokeWidth={3} />
                 </div>
               ))}
-              {/* Cursor glides in and clicks */}
+              {/* Finger taps the cue (mobile gesture, not a desktop cursor) */}
               <div
                 style={{
                   position: "absolute",
-                  left: interpolate(f, [c("clic"), c("clic") + 16], [780, 548], { ...CLAMP, easing: EASE_OUT }),
-                  top: interpolate(f, [c("clic"), c("clic") + 16], [560, 712], { ...CLAMP, easing: EASE_OUT }),
-                  opacity: rise(f, c("clic"), 6),
-                  scale: `${f >= c("anuncio") ? 1 - 0.18 * Math.sin(Math.PI * rise(f, c("anuncio"), 6)) : 1}`,
+                  left: interpolate(f, [arrowAt + 4, arrowAt + 18], [760, 500], { ...CLAMP, easing: EASE_OUT }),
+                  top: interpolate(f, [arrowAt + 4, arrowAt + 18], [620, 716], { ...CLAMP, easing: EASE_OUT }),
+                  opacity: rise(f, arrowAt + 4, 6),
+                  scale: `${1 - 0.16 * tapPress(f, tapAt)}`,
+                  rotate: "-18deg",
                 }}
               >
-                <MousePointer2 size={78} color={COLORS.ink} fill={COLORS.white} strokeWidth={1.6} />
+                <Pointer size={96} color={COLORS.ink} fill={COLORS.white} strokeWidth={1.5} />
               </div>
             </>
           ) : null}

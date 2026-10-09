@@ -10,7 +10,7 @@ import { Avatar, IconBadge, PriceTag } from "../components/Pieces";
 import { SceneFrame, useScene } from "../components/SceneFrame";
 import { cuesOf } from "../config/timeline";
 import { breakWords, RedBarText } from "../components/Text";
-import { MATCH_LINE } from "./shared";
+import { MATCH_ANGLE, MATCH_LINE } from "./shared";
 
 const PIVOT = { x: 480, y: MATCH_LINE.y };
 const HALF = 380;
@@ -52,19 +52,20 @@ const Pan: React.FC<{ x: number; y: number; children?: React.ReactNode; fade: nu
 export const S3_BEATS = (() => {
   const { c, dur } = cuesOf("s3");
   const dropAt = c("compara");
-  return { dropAt, landAt: [0, 1, 2].map((k) => dropAt + k * 5 + 7), tipAt: dropAt + 10, valeAt: c("vale"), exitAt: dur - 12 };
+  // "VALE LO QUE COBRA" lands on "por qué tu clínica" so it holds ~2s.
+  return { dropAt, landAt: [0, 1, 2].map((k) => dropAt + k * 5 + 7), tipAt: dropAt + 10, valeAt: c("tuClinica"), exitAt: dur - 12 };
 })();
 
 export const S3NoComparaIgual: React.FC = () => {
   const { f, c } = useScene("s3");
-  const { dropAt, tipAt, exitAt } = S3_BEATS;
+  const { dropAt, tipAt, valeAt, exitAt } = S3_BEATS;
   const drops = [0, 1, 2].map((k) => spring({ frame: f - (dropAt + k * 5), fps: FPS, config: { damping: 13, stiffness: 160 } }));
   const tip = spring({ frame: f - tipAt, fps: FPS, config: { damping: 8, stiffness: 120, mass: 0.9 } });
   const wobbleEnv = interpolate(f, [c("comparar"), c("comparar") + 8, dropAt, dropAt + 6], [0, 1, 1, 0], CLAMP);
   const exit = rise(f, exitAt, 11, EASE_IN_OUT);
 
-  let angle = lerp(-12, 12, tip) + wobbleEnv * 3 * Math.sin((f - c("comparar")) / 4.5);
-  angle = lerp(angle, 0, exit);
+  let angle = lerp(-MATCH_ANGLE, MATCH_ANGLE, tip) + wobbleEnv * 3 * Math.sin((f - c("comparar")) / 4.5);
+  angle = lerp(angle, MATCH_ANGLE, exit);
   const rad = (angle * Math.PI) / 180;
   const end = (side: -1 | 1) => ({
     x: PIVOT.x + side * HALF * Math.cos(rad),
@@ -188,13 +189,13 @@ export const S3NoComparaIgual: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           opacity: fade,
-          scale: `${0.9 + 0.1 * pop(f, c("vale"), 12)}`,
+          scale: `${0.9 + 0.1 * pop(f, valeAt, 12)}`,
         }}
       >
         <RedBarText
           text={breakWords(COPY.s3.worth, [2, 3])}
           f={f}
-          at={c("vale")}
+          at={valeAt}
           fontSize={92}
           align="center"
           style={{ whiteSpace: "pre-line" }}

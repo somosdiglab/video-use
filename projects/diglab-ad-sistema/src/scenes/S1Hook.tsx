@@ -13,12 +13,13 @@ import { breakWords, KineticWords, RedBarText } from "../components/Text";
 // Scenario A palette: cold grays, red only on the price tag.
 const COLD_BUBBLE = "#272B34";
 const COLD_TEXT = "#E4E7EC";
-const COLD_DIM = "#5B606B";
+const COLD_DIM = "#7C828E";
 
 /** Key beats (scene-local frames) — shared with the SFX cue sheet. */
 export const S1_BEATS = (() => {
   const { c, ce, dur } = cuesOf("s1");
-  const blockOut = Math.max(c("pregunta") + 2, 50);
+  // Hold the brand block ~2.4s so headline + question can actually be read.
+  const blockOut = Math.max(c("pregunta") + 2, 72);
   const chatIn = blockOut + 4;
   const typingFrames = 10;
   const typeStart = chatIn + 2 + typingFrames;
@@ -80,21 +81,19 @@ export const S1Hook: React.FC = () => {
           lineHeight={1.2}
           style={{ whiteSpace: "pre-line" }}
         />
-        <div
-          style={{
-            marginTop: 44,
-            maxWidth: 880,
-            fontFamily: FONT_STACK,
-            fontWeight: 700,
-            fontSize: 50,
-            lineHeight: 1.18,
-            color: COLORS.white,
-            opacity: rise(f, 3, 9),
-            translate: `0px ${(1 - rise(f, 3, 11)) * 24}px`,
-          }}
-        >
-          {COPY.s1.question}
-        </div>
+        <KineticWords
+          text={COPY.s1.question}
+          f={f}
+          at={3}
+          stagger={2}
+          dur={9}
+          fontSize={52}
+          weight={700}
+          lineHeight={1.16}
+          letterSpacing="0em"
+          align="left"
+          style={{ marginTop: 44, maxWidth: 880 }}
+        />
       </div>
 
       {f >= chatIn - 2 ? (
@@ -102,7 +101,7 @@ export const S1Hook: React.FC = () => {
           {/* Kinetic label: PREGUNTA EL PRECIO -> DESAPARECE */}
           <div style={{ position: "absolute", left: 0, top: 30, width: 960 }}>
             <KineticWords
-              text={COPY.s1.asksPrice}
+              text={breakWords(COPY.s1.asksPrice, [1, 2])}
               f={f}
               at={askLabelAt}
               fontSize={88}
