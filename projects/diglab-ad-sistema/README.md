@@ -16,6 +16,7 @@ Remotion 4 · TypeScript + React · 1080×1920 · 30 fps · ~59 s.
 | Narrador a cámara | ✅ ~58 % del tiempo (brief: 55–70 %) |
 | Colores DigLab + logo | ✅ paleta navy/celeste provista; rojo solo como alerta |
 | Tipografía de marca | ⚠️ falta — se usa Montserrat |
+| Mezcla | ✅ música −19,5 dB bajo la voz (sube en el cierre) · SFX ≥ 7,6 dB bajo la voz |
 | Música | ⚠️ cama provisoria sintetizada (reemplazable) |
 
 ## Archivos de origen (NO van a git)

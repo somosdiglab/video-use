@@ -15,7 +15,6 @@ Config.setOverwriteOutput(true);
 // Social-delivery standard: yuv420p, limited range, tagged BT.709.
 Config.setPixelFormat("yuv420p");
 Config.setColorSpace("bt709");
-Config.setCrf(16);
 
 // Cloud container: Remotion can't download its own Chrome there, so use the
 // preinstalled headless shell when it exists. On a normal machine (Windows/Mac)

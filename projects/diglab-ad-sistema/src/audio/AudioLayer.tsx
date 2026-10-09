@@ -16,10 +16,21 @@ export const VO_FILE = ["media/vo.wav", "media/vo.mp3", "audio/vo.mp3"].find((f)
 export const HAS_VO = VO_FILE !== null;
 const HAS_MUSIC = files.includes("audio/music.mp3");
 
-const DUCK = 0.1; // -20 dB under speech
-const GAP = 0.16; // -16 dB between lines
-const CLOSE_DUCK = 0.13; // swells a little under the CTA line
-const CLOSE_PEAK = 0.5; // after the last word: music takes over
+/** SFX sit well under the voice: global trim + extra trim for long tonal hits. */
+const SFX_GAIN = 0.4; // -8 dB
+const SFX_TRIM: Partial<Record<string, number>> = {
+  ding: 0.55,
+  success: 0.55,
+  riser: 0.55,
+  "riser-short": 0.6,
+  whoosh: 0.8,
+  buzz: 0.7,
+};
+
+const DUCK = 0.035; // music ~-20 dB under the voice while it speaks (measured)
+const GAP = 0.045; // breathes up a little between lines
+const CLOSE_DUCK = 0.05; // swells a little under the CTA line
+const CLOSE_PEAK = 0.26; // after the last word: music takes over (~voice level)
 const FADE_OUT_FRAMES = 10;
 
 /** Per-frame music gain, precomputed (volume callbacks must be pure). */
@@ -63,7 +74,7 @@ export const AudioLayer: React.FC<{ withMusic: boolean }> = ({ withMusic }) => {
       ) : null}
       {SFX_HITS.map((h, i) => (
         <Sequence key={i} from={Math.max(0, h.at)} durationInFrames={60} layout="none" name={`SFX ${h.name}`}>
-          <Audio src={staticFile(`audio/sfx/${h.name}.wav`)} volume={h.volume} />
+          <Audio src={staticFile(`audio/sfx/${h.name}.wav`)} volume={h.volume * SFX_GAIN * (SFX_TRIM[h.name] ?? 1)} />
         </Sequence>
       ))}
     </>
