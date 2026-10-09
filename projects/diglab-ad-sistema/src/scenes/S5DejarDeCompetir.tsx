@@ -54,7 +54,8 @@ export const S5_BEATS = (() => {
 export const S5DejarDeCompetir: React.FC = () => {
   const { f, c } = useScene("s5");
   const { drawFrom, drawTo, badgeAt: badgeAts, strikeAt, swapAt } = S5_BEATS;
-  const gP = interpolate(f, [drawFrom, drawTo], [0, 1], { ...CLAMP, easing: EASE_IN_OUT });
+  // Linear: the race to the bottom is visibly moving from the first frames.
+  const gP = interpolate(f, [drawFrom, drawTo], [0, 1], CLAMP);
   const oursP =
     f < c("empezar")
       ? interpolate(f, [drawFrom, c("empezar")], [0, OURS_BREAK], CLAMP)
