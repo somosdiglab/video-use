@@ -18,7 +18,8 @@ if (!input || !output) {
 const ff = process.env.FFMPEG || "ffmpeg";
 const TARGET = "I=-14:TP=-1.5:LRA=11";
 // AAC encoding overshoots inter-sample peaks; leave headroom.
-const LIMITER = "alimiter=limit=0.79:attack=3:release=60:level=disabled";
+// latency=1: compensate the lookahead so the voice stays frame-locked to the lips.
+const LIMITER = "alimiter=limit=0.79:attack=3:release=60:level=disabled:latency=1";
 
 const p1 = spawnSync(
   ff,
