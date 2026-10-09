@@ -1,0 +1,35 @@
+{
+  "_comment": "Voice-over script, verbatim Spanish. One entry per scene. Subtitles are built from THIS text (not from the ASR), so spelling stays exactly as written here. If you edit a line, re-run scripts/estimate_timing.py or scripts/lock_timing.py.",
+  "scenes": [
+    {
+      "id": "s1",
+      "name": "Hook",
+      "vo": "Hoy, cuando un paciente pregunta un precio en tu clínica, muchas veces desaparece sin decir nada más."
+    },
+    {
+      "id": "s2",
+      "name": "Otro escenario",
+      "vo": "Ahora imaginate otro escenario. Antes de preguntar el precio, te aseguraste de que ese paciente potencial conozca tu equipo, tu trayectoria... ¿Y qué hace que tu clínica sea diferente al resto?"
+    },
+    {
+      "id": "s3",
+      "name": "No compara igual",
+      "vo": "Ese paciente no va a comparar de la misma forma. Compara sabiendo por qué tu clínica vale lo que cobra."
+    },
+    {
+      "id": "s4",
+      "name": "El sistema",
+      "vo": "El puente entre un escenario y el otro es un sistema que capta mejores consultas, las precalifica, las ordena, automatiza el seguimiento y las termina convirtiendo en pacientes reales y recurrentes."
+    },
+    {
+      "id": "s5",
+      "name": "Dejar de competir por precio",
+      "vo": "Es la única forma de dejar de competir por precio y empezar a cobrar lo que tu clínica realmente vale."
+    },
+    {
+      "id": "s6",
+      "name": "Cierre y CTA",
+      "vo": "Hoy, el solo hecho de lanzar campañas publicitarias ya no es más un diferencial. Necesitás cambiar el chip hacia un sistema completo que acompañe las distintas etapas del recorrido del paciente. Si te interesa saber cómo lo hacemos, hacé clic en este anuncio."
+    }
+  ]
+}

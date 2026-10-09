@@ -1,0 +1,1142 @@
+{
+ "_comment": "GENERATED. Estimated timing — replace by running scripts/lock_timing.py once vo.mp3 exists.",
+ "source": "estimate",
+ "generatedAt": "2026-10-09T19:55:06+00:00",
+ "syllablesPerSecond": 6.78,
+ "words": [
+  {
+   "scene": "s1",
+   "i": 0,
+   "text": "Hoy,",
+   "startMs": 300,
+   "endMs": 477
+  },
+  {
+   "scene": "s1",
+   "i": 1,
+   "text": "cuando",
+   "startMs": 637,
+   "endMs": 962
+  },
+  {
+   "scene": "s1",
+   "i": 2,
+   "text": "un",
+   "startMs": 962,
+   "endMs": 1140
+  },
+  {
+   "scene": "s1",
+   "i": 3,
+   "text": "paciente",
+   "startMs": 1140,
+   "endMs": 1612
+  },
+  {
+   "scene": "s1",
+   "i": 4,
+   "text": "pregunta",
+   "startMs": 1612,
+   "endMs": 2084
+  },
+  {
+   "scene": "s1",
+   "i": 5,
+   "text": "un",
+   "startMs": 2084,
+   "endMs": 2262
+  },
+  {
+   "scene": "s1",
+   "i": 6,
+   "text": "precio",
+   "startMs": 2262,
+   "endMs": 2587
+  },
+  {
+   "scene": "s1",
+   "i": 7,
+   "text": "en",
+   "startMs": 2587,
+   "endMs": 2764
+  },
+  {
+   "scene": "s1",
+   "i": 8,
+   "text": "tu",
+   "startMs": 2764,
+   "endMs": 2942
+  },
+  {
+   "scene": "s1",
+   "i": 9,
+   "text": "clínica,",
+   "startMs": 2942,
+   "endMs": 3414
+  },
+  {
+   "scene": "s1",
+   "i": 10,
+   "text": "muchas",
+   "startMs": 3574,
+   "endMs": 3899
+  },
+  {
+   "scene": "s1",
+   "i": 11,
+   "text": "veces",
+   "startMs": 3899,
+   "endMs": 4224
+  },
+  {
+   "scene": "s1",
+   "i": 12,
+   "text": "desaparece",
+   "startMs": 4224,
+   "endMs": 4991
+  },
+  {
+   "scene": "s1",
+   "i": 13,
+   "text": "sin",
+   "startMs": 4991,
+   "endMs": 5169
+  },
+  {
+   "scene": "s1",
+   "i": 14,
+   "text": "decir",
+   "startMs": 5169,
+   "endMs": 5493
+  },
+  {
+   "scene": "s1",
+   "i": 15,
+   "text": "nada",
+   "startMs": 5493,
+   "endMs": 5818
+  },
+  {
+   "scene": "s1",
+   "i": 16,
+   "text": "más.",
+   "startMs": 5818,
+   "endMs": 5996
+  },
+  {
+   "scene": "s2",
+   "i": 0,
+   "text": "Ahora",
+   "startMs": 6546,
+   "endMs": 7018
+  },
+  {
+   "scene": "s2",
+   "i": 1,
+   "text": "imaginate",
+   "startMs": 7018,
+   "endMs": 7785
+  },
+  {
+   "scene": "s2",
+   "i": 2,
+   "text": "otro",
+   "startMs": 7785,
+   "endMs": 8110
+  },
+  {
+   "scene": "s2",
+   "i": 3,
+   "text": "escenario.",
+   "startMs": 8110,
+   "endMs": 8730
+  },
+  {
+   "scene": "s2",
+   "i": 4,
+   "text": "Antes",
+   "startMs": 9110,
+   "endMs": 9435
+  },
+  {
+   "scene": "s2",
+   "i": 5,
+   "text": "de",
+   "startMs": 9435,
+   "endMs": 9612
+  },
+  {
+   "scene": "s2",
+   "i": 6,
+   "text": "preguntar",
+   "startMs": 9612,
+   "endMs": 10085
+  },
+  {
+   "scene": "s2",
+   "i": 7,
+   "text": "el",
+   "startMs": 10085,
+   "endMs": 10262
+  },
+  {
+   "scene": "s2",
+   "i": 8,
+   "text": "precio,",
+   "startMs": 10262,
+   "endMs": 10587
+  },
+  {
+   "scene": "s2",
+   "i": 9,
+   "text": "te",
+   "startMs": 10747,
+   "endMs": 10924
+  },
+  {
+   "scene": "s2",
+   "i": 10,
+   "text": "aseguraste",
+   "startMs": 10924,
+   "endMs": 11692
+  },
+  {
+   "scene": "s2",
+   "i": 11,
+   "text": "de",
+   "startMs": 11692,
+   "endMs": 11869
+  },
+  {
+   "scene": "s2",
+   "i": 12,
+   "text": "que",
+   "startMs": 11869,
+   "endMs": 12047
+  },
+  {
+   "scene": "s2",
+   "i": 13,
+   "text": "ese",
+   "startMs": 12047,
+   "endMs": 12371
+  },
+  {
+   "scene": "s2",
+   "i": 14,
+   "text": "paciente",
+   "startMs": 12371,
+   "endMs": 12844
+  },
+  {
+   "scene": "s2",
+   "i": 15,
+   "text": "potencial",
+   "startMs": 12844,
+   "endMs": 13316
+  },
+  {
+   "scene": "s2",
+   "i": 16,
+   "text": "conozca",
+   "startMs": 13316,
+   "endMs": 13789
+  },
+  {
+   "scene": "s2",
+   "i": 17,
+   "text": "tu",
+   "startMs": 13789,
+   "endMs": 13966
+  },
+  {
+   "scene": "s2",
+   "i": 18,
+   "text": "equipo,",
+   "startMs": 13966,
+   "endMs": 14438
+  },
+  {
+   "scene": "s2",
+   "i": 19,
+   "text": "tu",
+   "startMs": 14598,
+   "endMs": 14776
+  },
+  {
+   "scene": "s2",
+   "i": 20,
+   "text": "trayectoria...",
+   "startMs": 14776,
+   "endMs": 15396
+  },
+  {
+   "scene": "s2",
+   "i": 21,
+   "text": "¿Y",
+   "startMs": 15816,
+   "endMs": 15993
+  },
+  {
+   "scene": "s2",
+   "i": 22,
+   "text": "qué",
+   "startMs": 15993,
+   "endMs": 16170
+  },
+  {
+   "scene": "s2",
+   "i": 23,
+   "text": "hace",
+   "startMs": 16170,
+   "endMs": 16495
+  },
+  {
+   "scene": "s2",
+   "i": 24,
+   "text": "que",
+   "startMs": 16495,
+   "endMs": 16673
+  },
+  {
+   "scene": "s2",
+   "i": 25,
+   "text": "tu",
+   "startMs": 16673,
+   "endMs": 16850
+  },
+  {
+   "scene": "s2",
+   "i": 26,
+   "text": "clínica",
+   "startMs": 16850,
+   "endMs": 17323
+  },
+  {
+   "scene": "s2",
+   "i": 27,
+   "text": "sea",
+   "startMs": 17323,
+   "endMs": 17647
+  },
+  {
+   "scene": "s2",
+   "i": 28,
+   "text": "diferente",
+   "startMs": 17647,
+   "endMs": 18267
+  },
+  {
+   "scene": "s2",
+   "i": 29,
+   "text": "al",
+   "startMs": 18267,
+   "endMs": 18445
+  },
+  {
+   "scene": "s2",
+   "i": 30,
+   "text": "resto?",
+   "startMs": 18445,
+   "endMs": 18770
+  },
+  {
+   "scene": "s3",
+   "i": 0,
+   "text": "Ese",
+   "startMs": 19320,
+   "endMs": 19644
+  },
+  {
+   "scene": "s3",
+   "i": 1,
+   "text": "paciente",
+   "startMs": 19644,
+   "endMs": 20117
+  },
+  {
+   "scene": "s3",
+   "i": 2,
+   "text": "no",
+   "startMs": 20117,
+   "endMs": 20294
+  },
+  {
+   "scene": "s3",
+   "i": 3,
+   "text": "va",
+   "startMs": 20294,
+   "endMs": 20472
+  },
+  {
+   "scene": "s3",
+   "i": 4,
+   "text": "a",
+   "startMs": 20472,
+   "endMs": 20649
+  },
+  {
+   "scene": "s3",
+   "i": 5,
+   "text": "comparar",
+   "startMs": 20649,
+   "endMs": 21121
+  },
+  {
+   "scene": "s3",
+   "i": 6,
+   "text": "de",
+   "startMs": 21121,
+   "endMs": 21299
+  },
+  {
+   "scene": "s3",
+   "i": 7,
+   "text": "la",
+   "startMs": 21299,
+   "endMs": 21476
+  },
+  {
+   "scene": "s3",
+   "i": 8,
+   "text": "misma",
+   "startMs": 21476,
+   "endMs": 21801
+  },
+  {
+   "scene": "s3",
+   "i": 9,
+   "text": "forma.",
+   "startMs": 21801,
+   "endMs": 22126
+  },
+  {
+   "scene": "s3",
+   "i": 10,
+   "text": "Compara",
+   "startMs": 22506,
+   "endMs": 22979
+  },
+  {
+   "scene": "s3",
+   "i": 11,
+   "text": "sabiendo",
+   "startMs": 22979,
+   "endMs": 23451
+  },
+  {
+   "scene": "s3",
+   "i": 12,
+   "text": "por",
+   "startMs": 23451,
+   "endMs": 23628
+  },
+  {
+   "scene": "s3",
+   "i": 13,
+   "text": "qué",
+   "startMs": 23628,
+   "endMs": 23806
+  },
+  {
+   "scene": "s3",
+   "i": 14,
+   "text": "tu",
+   "startMs": 23806,
+   "endMs": 23983
+  },
+  {
+   "scene": "s3",
+   "i": 15,
+   "text": "clínica",
+   "startMs": 23983,
+   "endMs": 24456
+  },
+  {
+   "scene": "s3",
+   "i": 16,
+   "text": "vale",
+   "startMs": 24456,
+   "endMs": 24780
+  },
+  {
+   "scene": "s3",
+   "i": 17,
+   "text": "lo",
+   "startMs": 24780,
+   "endMs": 24958
+  },
+  {
+   "scene": "s3",
+   "i": 18,
+   "text": "que",
+   "startMs": 24958,
+   "endMs": 25135
+  },
+  {
+   "scene": "s3",
+   "i": 19,
+   "text": "cobra.",
+   "startMs": 25135,
+   "endMs": 25460
+  },
+  {
+   "scene": "s4",
+   "i": 0,
+   "text": "El",
+   "startMs": 26010,
+   "endMs": 26188
+  },
+  {
+   "scene": "s4",
+   "i": 1,
+   "text": "puente",
+   "startMs": 26188,
+   "endMs": 26513
+  },
+  {
+   "scene": "s4",
+   "i": 2,
+   "text": "entre",
+   "startMs": 26513,
+   "endMs": 26837
+  },
+  {
+   "scene": "s4",
+   "i": 3,
+   "text": "un",
+   "startMs": 26837,
+   "endMs": 27015
+  },
+  {
+   "scene": "s4",
+   "i": 4,
+   "text": "escenario",
+   "startMs": 27015,
+   "endMs": 27635
+  },
+  {
+   "scene": "s4",
+   "i": 5,
+   "text": "y",
+   "startMs": 27635,
+   "endMs": 27812
+  },
+  {
+   "scene": "s4",
+   "i": 6,
+   "text": "el",
+   "startMs": 27812,
+   "endMs": 27990
+  },
+  {
+   "scene": "s4",
+   "i": 7,
+   "text": "otro",
+   "startMs": 27990,
+   "endMs": 28314
+  },
+  {
+   "scene": "s4",
+   "i": 8,
+   "text": "es",
+   "startMs": 28314,
+   "endMs": 28492
+  },
+  {
+   "scene": "s4",
+   "i": 9,
+   "text": "un",
+   "startMs": 28492,
+   "endMs": 28669
+  },
+  {
+   "scene": "s4",
+   "i": 10,
+   "text": "sistema",
+   "startMs": 28669,
+   "endMs": 29142
+  },
+  {
+   "scene": "s4",
+   "i": 11,
+   "text": "que",
+   "startMs": 29142,
+   "endMs": 29319
+  },
+  {
+   "scene": "s4",
+   "i": 12,
+   "text": "capta",
+   "startMs": 29319,
+   "endMs": 29644
+  },
+  {
+   "scene": "s4",
+   "i": 13,
+   "text": "mejores",
+   "startMs": 29644,
+   "endMs": 30116
+  },
+  {
+   "scene": "s4",
+   "i": 14,
+   "text": "consultas,",
+   "startMs": 30116,
+   "endMs": 30589
+  },
+  {
+   "scene": "s4",
+   "i": 15,
+   "text": "las",
+   "startMs": 30749,
+   "endMs": 30926
+  },
+  {
+   "scene": "s4",
+   "i": 16,
+   "text": "precalifica,",
+   "startMs": 30926,
+   "endMs": 31693
+  },
+  {
+   "scene": "s4",
+   "i": 17,
+   "text": "las",
+   "startMs": 31853,
+   "endMs": 32031
+  },
+  {
+   "scene": "s4",
+   "i": 18,
+   "text": "ordena,",
+   "startMs": 32031,
+   "endMs": 32503
+  },
+  {
+   "scene": "s4",
+   "i": 19,
+   "text": "automatiza",
+   "startMs": 32663,
+   "endMs": 33430
+  },
+  {
+   "scene": "s4",
+   "i": 20,
+   "text": "el",
+   "startMs": 33430,
+   "endMs": 33608
+  },
+  {
+   "scene": "s4",
+   "i": 21,
+   "text": "seguimiento",
+   "startMs": 33608,
+   "endMs": 34228
+  },
+  {
+   "scene": "s4",
+   "i": 22,
+   "text": "y",
+   "startMs": 34228,
+   "endMs": 34405
+  },
+  {
+   "scene": "s4",
+   "i": 23,
+   "text": "las",
+   "startMs": 34405,
+   "endMs": 34583
+  },
+  {
+   "scene": "s4",
+   "i": 24,
+   "text": "termina",
+   "startMs": 34583,
+   "endMs": 35055
+  },
+  {
+   "scene": "s4",
+   "i": 25,
+   "text": "convirtiendo",
+   "startMs": 35055,
+   "endMs": 35675
+  },
+  {
+   "scene": "s4",
+   "i": 26,
+   "text": "en",
+   "startMs": 35675,
+   "endMs": 35852
+  },
+  {
+   "scene": "s4",
+   "i": 27,
+   "text": "pacientes",
+   "startMs": 35852,
+   "endMs": 36324
+  },
+  {
+   "scene": "s4",
+   "i": 28,
+   "text": "reales",
+   "startMs": 36324,
+   "endMs": 36797
+  },
+  {
+   "scene": "s4",
+   "i": 29,
+   "text": "y",
+   "startMs": 36797,
+   "endMs": 36974
+  },
+  {
+   "scene": "s4",
+   "i": 30,
+   "text": "recurrentes.",
+   "startMs": 36974,
+   "endMs": 37594
+  },
+  {
+   "scene": "s5",
+   "i": 0,
+   "text": "Es",
+   "startMs": 38144,
+   "endMs": 38321
+  },
+  {
+   "scene": "s5",
+   "i": 1,
+   "text": "la",
+   "startMs": 38321,
+   "endMs": 38499
+  },
+  {
+   "scene": "s5",
+   "i": 2,
+   "text": "única",
+   "startMs": 38499,
+   "endMs": 38971
+  },
+  {
+   "scene": "s5",
+   "i": 3,
+   "text": "forma",
+   "startMs": 38971,
+   "endMs": 39296
+  },
+  {
+   "scene": "s5",
+   "i": 4,
+   "text": "de",
+   "startMs": 39296,
+   "endMs": 39474
+  },
+  {
+   "scene": "s5",
+   "i": 5,
+   "text": "dejar",
+   "startMs": 39474,
+   "endMs": 39799
+  },
+  {
+   "scene": "s5",
+   "i": 6,
+   "text": "de",
+   "startMs": 39799,
+   "endMs": 39976
+  },
+  {
+   "scene": "s5",
+   "i": 7,
+   "text": "competir",
+   "startMs": 39976,
+   "endMs": 40448
+  },
+  {
+   "scene": "s5",
+   "i": 8,
+   "text": "por",
+   "startMs": 40448,
+   "endMs": 40626
+  },
+  {
+   "scene": "s5",
+   "i": 9,
+   "text": "precio",
+   "startMs": 40626,
+   "endMs": 40951
+  },
+  {
+   "scene": "s5",
+   "i": 10,
+   "text": "y",
+   "startMs": 40951,
+   "endMs": 41128
+  },
+  {
+   "scene": "s5",
+   "i": 11,
+   "text": "empezar",
+   "startMs": 41128,
+   "endMs": 41600
+  },
+  {
+   "scene": "s5",
+   "i": 12,
+   "text": "a",
+   "startMs": 41600,
+   "endMs": 41778
+  },
+  {
+   "scene": "s5",
+   "i": 13,
+   "text": "cobrar",
+   "startMs": 41778,
+   "endMs": 42103
+  },
+  {
+   "scene": "s5",
+   "i": 14,
+   "text": "lo",
+   "startMs": 42103,
+   "endMs": 42280
+  },
+  {
+   "scene": "s5",
+   "i": 15,
+   "text": "que",
+   "startMs": 42280,
+   "endMs": 42458
+  },
+  {
+   "scene": "s5",
+   "i": 16,
+   "text": "tu",
+   "startMs": 42458,
+   "endMs": 42635
+  },
+  {
+   "scene": "s5",
+   "i": 17,
+   "text": "clínica",
+   "startMs": 42635,
+   "endMs": 43107
+  },
+  {
+   "scene": "s5",
+   "i": 18,
+   "text": "realmente",
+   "startMs": 43107,
+   "endMs": 43727
+  },
+  {
+   "scene": "s5",
+   "i": 19,
+   "text": "vale.",
+   "startMs": 43727,
+   "endMs": 44052
+  },
+  {
+   "scene": "s6",
+   "i": 0,
+   "text": "Hoy,",
+   "startMs": 44602,
+   "endMs": 44780
+  },
+  {
+   "scene": "s6",
+   "i": 1,
+   "text": "el",
+   "startMs": 44940,
+   "endMs": 45117
+  },
+  {
+   "scene": "s6",
+   "i": 2,
+   "text": "solo",
+   "startMs": 45117,
+   "endMs": 45442
+  },
+  {
+   "scene": "s6",
+   "i": 3,
+   "text": "hecho",
+   "startMs": 45442,
+   "endMs": 45767
+  },
+  {
+   "scene": "s6",
+   "i": 4,
+   "text": "de",
+   "startMs": 45767,
+   "endMs": 45944
+  },
+  {
+   "scene": "s6",
+   "i": 5,
+   "text": "lanzar",
+   "startMs": 45944,
+   "endMs": 46269
+  },
+  {
+   "scene": "s6",
+   "i": 6,
+   "text": "campañas",
+   "startMs": 46269,
+   "endMs": 46741
+  },
+  {
+   "scene": "s6",
+   "i": 7,
+   "text": "publicitarias",
+   "startMs": 46741,
+   "endMs": 47509
+  },
+  {
+   "scene": "s6",
+   "i": 8,
+   "text": "ya",
+   "startMs": 47509,
+   "endMs": 47686
+  },
+  {
+   "scene": "s6",
+   "i": 9,
+   "text": "no",
+   "startMs": 47686,
+   "endMs": 47864
+  },
+  {
+   "scene": "s6",
+   "i": 10,
+   "text": "es",
+   "startMs": 47864,
+   "endMs": 48041
+  },
+  {
+   "scene": "s6",
+   "i": 11,
+   "text": "más",
+   "startMs": 48041,
+   "endMs": 48219
+  },
+  {
+   "scene": "s6",
+   "i": 12,
+   "text": "un",
+   "startMs": 48219,
+   "endMs": 48396
+  },
+  {
+   "scene": "s6",
+   "i": 13,
+   "text": "diferencial.",
+   "startMs": 48396,
+   "endMs": 49016
+  },
+  {
+   "scene": "s6",
+   "i": 14,
+   "text": "Necesitás",
+   "startMs": 49396,
+   "endMs": 50016
+  },
+  {
+   "scene": "s6",
+   "i": 15,
+   "text": "cambiar",
+   "startMs": 50016,
+   "endMs": 50340
+  },
+  {
+   "scene": "s6",
+   "i": 16,
+   "text": "el",
+   "startMs": 50340,
+   "endMs": 50518
+  },
+  {
+   "scene": "s6",
+   "i": 17,
+   "text": "chip",
+   "startMs": 50518,
+   "endMs": 50695
+  },
+  {
+   "scene": "s6",
+   "i": 18,
+   "text": "hacia",
+   "startMs": 50695,
+   "endMs": 51020
+  },
+  {
+   "scene": "s6",
+   "i": 19,
+   "text": "un",
+   "startMs": 51020,
+   "endMs": 51198
+  },
+  {
+   "scene": "s6",
+   "i": 20,
+   "text": "sistema",
+   "startMs": 51198,
+   "endMs": 51670
+  },
+  {
+   "scene": "s6",
+   "i": 21,
+   "text": "completo",
+   "startMs": 51670,
+   "endMs": 52142
+  },
+  {
+   "scene": "s6",
+   "i": 22,
+   "text": "que",
+   "startMs": 52142,
+   "endMs": 52320
+  },
+  {
+   "scene": "s6",
+   "i": 23,
+   "text": "acompañe",
+   "startMs": 52320,
+   "endMs": 52940
+  },
+  {
+   "scene": "s6",
+   "i": 24,
+   "text": "las",
+   "startMs": 52940,
+   "endMs": 53117
+  },
+  {
+   "scene": "s6",
+   "i": 25,
+   "text": "distintas",
+   "startMs": 53117,
+   "endMs": 53589
+  },
+  {
+   "scene": "s6",
+   "i": 26,
+   "text": "etapas",
+   "startMs": 53589,
+   "endMs": 54062
+  },
+  {
+   "scene": "s6",
+   "i": 27,
+   "text": "del",
+   "startMs": 54062,
+   "endMs": 54239
+  },
+  {
+   "scene": "s6",
+   "i": 28,
+   "text": "recorrido",
+   "startMs": 54239,
+   "endMs": 54859
+  },
+  {
+   "scene": "s6",
+   "i": 29,
+   "text": "del",
+   "startMs": 54859,
+   "endMs": 55036
+  },
+  {
+   "scene": "s6",
+   "i": 30,
+   "text": "paciente.",
+   "startMs": 55036,
+   "endMs": 55509
+  },
+  {
+   "scene": "s6",
+   "i": 31,
+   "text": "Si",
+   "startMs": 55889,
+   "endMs": 56066
+  },
+  {
+   "scene": "s6",
+   "i": 32,
+   "text": "te",
+   "startMs": 56066,
+   "endMs": 56244
+  },
+  {
+   "scene": "s6",
+   "i": 33,
+   "text": "interesa",
+   "startMs": 56244,
+   "endMs": 56863
+  },
+  {
+   "scene": "s6",
+   "i": 34,
+   "text": "saber",
+   "startMs": 56863,
+   "endMs": 57188
+  },
+  {
+   "scene": "s6",
+   "i": 35,
+   "text": "cómo",
+   "startMs": 57188,
+   "endMs": 57513
+  },
+  {
+   "scene": "s6",
+   "i": 36,
+   "text": "lo",
+   "startMs": 57513,
+   "endMs": 57691
+  },
+  {
+   "scene": "s6",
+   "i": 37,
+   "text": "hacemos,",
+   "startMs": 57691,
+   "endMs": 58163
+  },
+  {
+   "scene": "s6",
+   "i": 38,
+   "text": "hacé",
+   "startMs": 58323,
+   "endMs": 58648
+  },
+  {
+   "scene": "s6",
+   "i": 39,
+   "text": "clic",
+   "startMs": 58648,
+   "endMs": 58825
+  },
+  {
+   "scene": "s6",
+   "i": 40,
+   "text": "en",
+   "startMs": 58825,
+   "endMs": 59003
+  },
+  {
+   "scene": "s6",
+   "i": 41,
+   "text": "este",
+   "startMs": 59003,
+   "endMs": 59328
+  },
+  {
+   "scene": "s6",
+   "i": 42,
+   "text": "anuncio.",
+   "startMs": 59328,
+   "endMs": 59800
+  }
+ ]
+}

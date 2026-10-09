@@ -1,0 +1,13 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# Ignore the output video from Git but not videos you import into src/.
+out
+
+# VO lock working files (Scribe transcript cache, edited WAV, report)
+vo-work/
+
+# Keep this project's lockfile (the repo root ignores package-lock.json)
+!package-lock.json
