@@ -1,4 +1,5 @@
-// Social-ready audio master: two-pass loudnorm to -14 LUFS, -1 dBTP, LRA 11
+// Social-ready audio master: two-pass loudnorm to -14 LUFS, LRA 11, then a
+// brick-wall limiter at -2 dBFS so the encoded AAC stays under -1 dBTP
 // (YouTube / Instagram / Facebook / TikTok normalization targets).
 // Video is stream-copied (no re-encode); only the audio is re-rendered.
 //
@@ -15,7 +16,9 @@ if (!input || !output) {
   process.exit(1);
 }
 const ff = process.env.FFMPEG || "ffmpeg";
-const TARGET = "I=-14:TP=-1:LRA=11";
+const TARGET = "I=-14:TP=-1.5:LRA=11";
+// AAC encoding overshoots inter-sample peaks; leave headroom.
+const LIMITER = "alimiter=limit=0.79:attack=3:release=60:level=disabled";
 
 const p1 = spawnSync(
   ff,
@@ -35,7 +38,7 @@ console.log(`measured: I=${m.input_i} LUFS  TP=${m.input_tp} dBTP  LRA=${m.input
 
 const filter =
   `loudnorm=${TARGET}:measured_I=${m.input_i}:measured_TP=${m.input_tp}` +
-  `:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`;
+  `:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true,${LIMITER}`;
 mkdirSync(dirname(output), { recursive: true });
 const p2 = spawnSync(
   ff,
